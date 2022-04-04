@@ -10,19 +10,9 @@ import java.sql.DriverManager;
 public class WordleApplication {
 	public static Connection db = null;
 	public static void main(String[] args) {
-		createDb();
 		SpringApplication.run(WordleApplication.class, args);
 	}
 
-	public static void createDb() {
-		try {
-			Class.forName("org.sqlite.JDBC");
-			db = DriverManager.getConnection("jdbc:sqlite:sample.db");
-		} catch ( Exception e ) {
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-			System.exit(0);
-		}
-		System.out.println("Opened database successfully");
-	}
+
 
 }
