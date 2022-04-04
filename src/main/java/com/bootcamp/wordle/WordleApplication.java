@@ -13,6 +13,7 @@ public class WordleApplication {
 		createDb();
 		SpringApplication.run(WordleApplication.class, args);
 	}
+
 	public static void createDb() {
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -23,4 +24,5 @@ public class WordleApplication {
 		}
 		System.out.println("Opened database successfully");
 	}
+
 }
