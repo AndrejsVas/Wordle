@@ -13,7 +13,7 @@ public class WordController {
 
     @Autowired
     private WordService wordService;
-    @GetMapping("/")
+    @GetMapping("/hello")
     public String welcome()
     {
         return "<html><body>"
