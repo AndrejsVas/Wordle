@@ -14,8 +14,8 @@ public class GameController {
 
     @GetMapping("/api/createGameSession")
     public int createGameSession() {
-
-        return (int)(Math.random()*100);
+        return gameService.createGame().getId();
     }
+
 
 }
