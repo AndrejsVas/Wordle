@@ -26,10 +26,16 @@ public class GameController {
 
     @PostMapping("/api/guess")
     public Answer takeAGuess(@RequestBody Guess guess){
-        boolean isWord = wordService.getWordByName(guess.getWord());
         Game foundGame =  gameService.getGameById(guess.getId());
-        int[] letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
-        return new Answer();
+        boolean isWin = guess.getWord().equals(foundGame.getWord());
+        boolean isWord = wordService.getWordByName(guess.getWord());
+        //hardcoded size
+        int[] letterPlacement = new int[5];
+        if(isWin || !isWord){
+            return new Answer(isWord,isWin,letterPlacement);
+        }
+        letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
+        return new Answer(isWord,isWin,letterPlacement);
 
     }
 

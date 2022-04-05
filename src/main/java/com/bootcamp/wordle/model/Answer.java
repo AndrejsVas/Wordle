@@ -11,14 +11,10 @@ public class Answer {
     private int wordLength = 5;
     private int[] charStatus = new int[wordLength];
 
-    public Answer() {
-        this.isWord = true;
-        this.isWin = false;
-        this.charStatus[0] = 0;
-        this.charStatus[1] = 1;
-        this.charStatus[2] = 2;
-        this.charStatus[3] = 1;
-        this.charStatus[4] = 2;
+    public Answer(boolean isWord, boolean isWin, int[] charStatus) {
+        this.isWord = isWord;
+        this.isWin = isWin;
+        this.charStatus = charStatus;
     }
 
     public int[] getCharStatus() { return charStatus; }
