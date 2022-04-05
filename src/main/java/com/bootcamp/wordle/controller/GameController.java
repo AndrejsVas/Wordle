@@ -28,6 +28,7 @@ public class GameController {
     public Answer takeAGuess(@RequestBody Guess guess){
         boolean isWord = wordService.getWordByName(guess.getWord());
         Game foundGame =  gameService.getGameById(guess.getId());
+        int[] letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
         return new Answer();
 
     }
