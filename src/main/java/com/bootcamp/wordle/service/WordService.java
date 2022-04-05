@@ -29,19 +29,22 @@ public class WordService {
         //Hardcoded Size for now
         int[] letterPlacement = new int[5];
 
-        for(int i = 0; i < userSubmittedCharArray.length; i++)
-        {
-            for (int j =0 ; j< gameSessionCharArray.length; j++){
-
-                if(gameSessionCharArray[j] == userSubmittedCharArray[i]){
-                    letterPlacement[i] = 2;
-                }
-            }
-            if(gameSessionCharArray[i] == userSubmittedCharArray[i]){
+        for(int i = 0; i < userSubmittedCharArray.length; i++) {
+            if (gameSessionCharArray[i] == userSubmittedCharArray[i]) {
                 letterPlacement[i] = 3;
+                gameSessionCharArray[i] = ' ';
             }
-            if(letterPlacement[i] != 2 && letterPlacement[i] !=3)
-                letterPlacement[i] = 1;
+        }
+        for(int i = 0; i < userSubmittedCharArray.length; i++) {
+            if (gameSessionCharArray[i] != ' ') {
+                for (int j = 0; j < gameSessionCharArray.length; j++) {
+                    if (userSubmittedCharArray[i] == gameSessionCharArray[j]) {
+                        letterPlacement[i] = 2;
+                    }
+                }
+                if (letterPlacement[i] != 2 && letterPlacement[i] != 3)
+                    letterPlacement[i] = 1;
+            }
         }
         return letterPlacement;
 
