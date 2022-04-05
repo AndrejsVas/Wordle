@@ -6,19 +6,17 @@ import java.util.Map;
 public class Answer {
     private boolean isWord;
     private boolean isWin;
-    //private Map<Integer,Integer> charValues;
 
+    private int numberOfTries;
     private int wordLength = 5;
     private int[] charStatus = new int[wordLength];
 
-    public Answer() {
-        this.isWord = true;
-        this.isWin = false;
-        this.charStatus[0] = 0;
-        this.charStatus[1] = 1;
-        this.charStatus[2] = 2;
-        this.charStatus[3] = 1;
-        this.charStatus[4] = 2;
+    public Answer(boolean isWord, boolean isWin, int[] charStatus, int guessesLeft) {
+        this.isWord = isWord;
+        this.isWin = isWin;
+        this.charStatus = charStatus;
+        this.numberOfTries = guessesLeft;
+
     }
 
     public int[] getCharStatus() { return charStatus; }
@@ -41,6 +39,13 @@ public class Answer {
 
     public void setWin(boolean win) {
         isWin = win;
+    }
+    public int getNumberOfTries() {
+        return numberOfTries;
+    }
+
+    public void setNumberOfTries(int numberOfTries) {
+        this.numberOfTries = numberOfTries;
     }
 }
 

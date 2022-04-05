@@ -12,11 +12,16 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String word;
-    private int currentNumberOfGuesses;
+
+
+    private int guessesLeft;
     private int difficulty;
 
     public Game(){
 
+    }
+    public Game(int guessesLeft){
+        this.guessesLeft = guessesLeft;
     }
 
 
@@ -36,13 +41,14 @@ public class Game {
         this.word = word;
     }
 
-    public int getCurrentNumberOfGuesses() {
-        return currentNumberOfGuesses;
+    public int getGuessesLeft() {
+        return guessesLeft;
     }
 
-    public void setCurrentNumberOfGuesses(int currentNumberOfGuesses) {
-        this.currentNumberOfGuesses = currentNumberOfGuesses;
+    public void setGuessesLeft(int guessesLeft) {
+        this.guessesLeft = guessesLeft;
     }
+
 
     public int getDifficulty() {
         return difficulty;
