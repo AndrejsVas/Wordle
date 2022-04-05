@@ -1,6 +1,7 @@
 package com.bootcamp.wordle.controller;
 
 import com.bootcamp.wordle.model.Answer;
+import com.bootcamp.wordle.model.Game;
 import com.bootcamp.wordle.model.Guess;
 import com.bootcamp.wordle.service.GameService;
 import com.bootcamp.wordle.service.WordService;
@@ -15,6 +16,8 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
+    @Autowired
+    private WordService wordService;
 
     @GetMapping("/api/createGameSession")
     public int createGameSession() {
@@ -23,7 +26,10 @@ public class GameController {
 
     @PostMapping("/api/guess")
     public Answer takeAGuess(@RequestBody Guess guess){
+        boolean isWord = wordService.getWordByName(guess.getWord());
+        Game foundGame =  gameService.getGameById(guess.getId());
         return new Answer();
+
     }
 
 }

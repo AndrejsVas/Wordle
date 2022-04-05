@@ -18,6 +18,10 @@ public class WordService {
         return wordList;
     }
 
+    public boolean getWordByName(String tryWord){
+        return wordRepository.existsByWord(tryWord);
+    }
+
 
 
 }
