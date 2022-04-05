@@ -4,13 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 class WordInput extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isSent: false,
-            wordLenght: 5
-        };
-    }
+
+    state = {
+        isSent: false,
+        charState: Array(this.props.wordLength),
+        propsForWord: Array(this.props.wordLength * 1).fill(this.getPropsForChar())
+    };
 
     handleOutput(string) {
         this.setState({ ... this.state, string: string });
@@ -20,7 +19,7 @@ class WordInput extends React.Component {
         if (e.key === 'Enter') {
             this.setState({ ...this.state, isSent: true })
             const wordGuess = this.state.string;
-            if (wordGuess.length === this.state.wordLenght) {
+            if (wordGuess.length == this.props.wordLength) {
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -51,6 +50,10 @@ class WordInput extends React.Component {
         }
     }
 
+    getPropsForChar(color = "withe") {
+        return { style: { backgroundColor: color } }
+    }
+
     render() {
         return (
             <div className="word-input">
@@ -59,9 +62,9 @@ class WordInput extends React.Component {
                     disabled={this.state.isSent}
                 >   
                     <RICIBs
-                        amount={this.state.wordLenght}
+                        amount={this.state.wordLength}
                         handleOutputString={this.handleOutput.bind(this)}
-                        // inputProps={[{},{},{},{},{}]}
+                        inputProps={this.state.propsForWord}
                         inputRegExp={/^[a-z]$/}
                     />
                     {this.state.test}
