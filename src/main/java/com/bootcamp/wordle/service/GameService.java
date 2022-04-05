@@ -17,5 +17,8 @@ public class GameService {
         return gameRepository.save(game);
 
     }
+    public Game getGameById(int id){
+        return gameRepository.findById(id);
+    }
 
 }
