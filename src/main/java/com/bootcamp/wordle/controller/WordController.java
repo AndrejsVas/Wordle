@@ -33,11 +33,7 @@ public class WordController {
         return wordService.getAllWords();
     }
 
-    @GetMapping("/api/createGameSession")
-    public int createGameSession() {
 
-        return (int)(Math.random()*100);
-    }
 
 
 }
