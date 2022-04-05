@@ -21,7 +21,8 @@ public class GameController {
 
     @GetMapping("/api/createGameSession")
     public int createGameSession() {
-        return gameService.createGame().getId();
+        Game game = gameService.createGame(6);
+        return game.getId();
     }
 
     @PostMapping("/api/guess")
@@ -29,13 +30,16 @@ public class GameController {
         Game foundGame =  gameService.getGameById(guess.getId());
         boolean isWin = guess.getWord().equals(foundGame.getWord());
         boolean isWord = wordService.getWordByName(guess.getWord());
+        int guessesLeft = foundGame.getGuessesLeft();
         //hardcoded size
         int[] letterPlacement = new int[5];
         if(isWin || !isWord){
-            return new Answer(isWord,isWin,letterPlacement);
+            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
         }
+        gameService.setGuessesLeft(foundGame.getId(),guessesLeft-1);
+
         letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
-        return new Answer(isWord,isWin,letterPlacement);
+        return new Answer(isWord,isWin,letterPlacement,foundGame.getGuessesLeft());
 
     }
 

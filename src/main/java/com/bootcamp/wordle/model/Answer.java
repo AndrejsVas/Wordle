@@ -6,15 +6,15 @@ import java.util.Map;
 public class Answer {
     private boolean isWord;
     private boolean isWin;
-    //private Map<Integer,Integer> charValues;
-
+    private int numberOfTries;
     private int wordLength = 5;
     private int[] charStatus = new int[wordLength];
 
-    public Answer(boolean isWord, boolean isWin, int[] charStatus) {
+    public Answer(boolean isWord, boolean isWin, int[] charStatus, int guessesLeft) {
         this.isWord = isWord;
         this.isWin = isWin;
         this.charStatus = charStatus;
+        this.numberOfTries = guessesLeft;
     }
 
     public int[] getCharStatus() { return charStatus; }
@@ -37,6 +37,13 @@ public class Answer {
 
     public void setWin(boolean win) {
         isWin = win;
+    }
+    public int getNumberOfTries() {
+        return numberOfTries;
+    }
+
+    public void setNumberOfTries(int numberOfTries) {
+        this.numberOfTries = numberOfTries;
     }
 }
 
