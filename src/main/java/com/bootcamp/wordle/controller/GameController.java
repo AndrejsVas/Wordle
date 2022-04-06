@@ -40,8 +40,8 @@ public class GameController {
         else if( !isWord){
             gameService.extendGameSessionLife(foundGame);
             return new Answer(isWord,isWin,letterPlacement,guessesLeft);
-
         }
+        gameService.extendGameSessionLife(foundGame);
         gameService.setGuessesLeft(foundGame.getId(),guessesLeft-1);
         letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
         return new Answer(isWord,isWin,letterPlacement,foundGame.getGuessesLeft());
