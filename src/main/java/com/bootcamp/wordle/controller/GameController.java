@@ -45,9 +45,6 @@ public class GameController {
 
     }
 
-    @GetMapping("/api/test")
-    public void testTimestamps(){
-        gameService.checkSessionExpiration();
-    }
+
 
 }
