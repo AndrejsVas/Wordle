@@ -1,6 +1,7 @@
 package com.bootcamp.wordle.service;
 import com.bootcamp.wordle.model.Game;
 import com.bootcamp.wordle.repository.GameRepository;
+import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ public class GameService {
 
     @Autowired
     private GameRepository gameRepository;
+    @Autowired
+    private WordService wordService;
     public Game createGame(int guessesAmount){
         Game game = new Game( guessesAmount);
-        game.setWord("apple");
+        game.setWord(wordService.findRandomWord());
         return gameRepository.save(game);
 
     }
