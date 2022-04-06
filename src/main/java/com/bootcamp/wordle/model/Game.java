@@ -25,9 +25,13 @@ public class Game {
     private int difficulty;
 
     public Game(){
+        this.lastActiveTime = System.currentTimeMillis();
 
     }
-
+    public Game(int guessesLeft){
+        this.guessesLeft = guessesLeft;
+        this.lastActiveTime = System.currentTimeMillis();
+    }
 
     public long getLastActiveTime() {
         return lastActiveTime;
@@ -36,9 +40,7 @@ public class Game {
     public void setLastActiveTime(long lastActiveTime) {
         this.lastActiveTime = lastActiveTime;
     }
-    public Game(int guessesLeft){
-        this.guessesLeft = guessesLeft;
-    }
+
 
 
     public int getId() {

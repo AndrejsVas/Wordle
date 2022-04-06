@@ -34,11 +34,15 @@ public class GameController {
         int guessesLeft = foundGame.getGuessesLeft();
         //hardcoded size
         int[] letterPlacement = new int[5];
-        if(isWin || !isWord){
+        if(isWin){
             return new Answer(isWord,isWin,letterPlacement,guessesLeft);
         }
-        gameService.setGuessesLeft(foundGame.getId(),guessesLeft-1);
+        else if( !isWord){
+            gameService.extendGameSessionLife(foundGame);
+            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
 
+        }
+        gameService.setGuessesLeft(foundGame.getId(),guessesLeft-1);
         letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
         return new Answer(isWord,isWin,letterPlacement,foundGame.getGuessesLeft());
 
