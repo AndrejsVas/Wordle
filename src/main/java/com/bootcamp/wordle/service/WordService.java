@@ -24,7 +24,7 @@ public class WordService {
         return wordRepository.existsByWord(tryWord);
     }
 
-    public int[] compareWords(String userSubmittedWord, String gameSessionWord){
+    public static int[] compareWords(String userSubmittedWord, String gameSessionWord){
         char[] userSubmittedCharArray  = userSubmittedWord.toLowerCase().toCharArray();
         char[] gameSessionCharArray = gameSessionWord.toLowerCase().toCharArray();
         //Hardcoded Size for now
