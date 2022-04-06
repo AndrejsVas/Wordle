@@ -1,5 +1,6 @@
 package com.bootcamp.wordle.service;
 import com.bootcamp.wordle.model.Game;
+import com.bootcamp.wordle.model.Word;
 import com.bootcamp.wordle.repository.GameRepository;
 import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,10 @@ public class GameService {
         }
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 60000, initialDelay = 1000)
     public void checkSessionExpiration(){
-        List<Game> allGames = gameRepository.findAll();
+        List<Game> allGames = new ArrayList<>();
+        gameRepository.findAll().forEach(allGames::add);
         for(Game currentGame : allGames){
             if(isGameExpired(currentGame)){
                 gameRepository.delete(currentGame);
@@ -58,4 +60,8 @@ public class GameService {
         return timeElapsed > SESSION_EXPIRATION;
     }
 
+    public void extendGameSessionLife(Game currentGame){
+        currentGame.setLastActiveTime(System.currentTimeMillis());
+        gameRepository.save(currentGame);
+    }
 }
