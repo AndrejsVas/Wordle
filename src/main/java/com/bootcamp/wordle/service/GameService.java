@@ -3,6 +3,7 @@ import com.bootcamp.wordle.model.Game;
 import com.bootcamp.wordle.repository.GameRepository;
 import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Service
 public class GameService {
-    private static final long SESSION_EXPIRATION = 200000L;
+    private static final long SESSION_EXPIRATION = 600000L;
     @Autowired
     private GameRepository gameRepository;
     @Autowired
@@ -33,14 +34,21 @@ public class GameService {
         gameRepository.save(game);
     }
 
-
+    @Scheduled(fixedRate = 60000)
     public void checkSessionExpiration(){
-        Game testGame = getGameById(1);
-        long lastActiveTime = testGame.getLastActiveTime();
+        List<Game> allGames = gameRepository.findAll();
+        for(Game currentGame : allGames){
+            if(isGameExpired(currentGame)){
+                gameRepository.delete(currentGame);
+            }
+        }
+    }
+
+    public boolean isGameExpired(Game currentGame){
+        long lastActiveTime = currentGame.getLastActiveTime();
         long currentTime = System.currentTimeMillis();
         long timeElapsed = currentTime - lastActiveTime;
-        if (timeElapsed > SESSION_EXPIRATION) ;
-        gameRepository.delete(testGame);
+        return timeElapsed > SESSION_EXPIRATION;
     }
 
 }
