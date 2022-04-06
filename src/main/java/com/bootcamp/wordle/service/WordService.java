@@ -2,6 +2,7 @@ package com.bootcamp.wordle.service;
 import com.bootcamp.wordle.model.Word;
 import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -49,6 +50,11 @@ public class WordService {
         }
         return letterPlacement;
 
+    }
+
+    public String findRandomWord(){
+        Word word = wordRepository.findRandomWord();
+        return word.getWord();
     }
 
 
