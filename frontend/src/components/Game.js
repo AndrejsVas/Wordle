@@ -18,7 +18,7 @@ class Game extends React.Component {
     render() {
         return (
             <div className="game">
-                <h1 className="App-title">{this.state.gameId}</h1>
+                <h1 className="App-title">NOT wordle</h1>
                 <WordInput wordLength="5" gameId={this.state.gameId} />
                 <WordInput wordLength="5" gameId={this.state.gameId} />
                 <WordInput wordLength="5" gameId={this.state.gameId} />
