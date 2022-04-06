@@ -1,11 +1,14 @@
 package com.bootcamp.wordle.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Game {
 
     @Id
@@ -14,11 +17,24 @@ public class Game {
     private String word;
 
 
+
+    @Column(name = "modified_date")
+    private long lastActiveTime;
+
     private int guessesLeft;
     private int difficulty;
 
     public Game(){
 
+    }
+
+
+    public long getLastActiveTime() {
+        return lastActiveTime;
+    }
+
+    public void setLastActiveTime(long lastActiveTime) {
+        this.lastActiveTime = lastActiveTime;
     }
     public Game(int guessesLeft){
         this.guessesLeft = guessesLeft;
