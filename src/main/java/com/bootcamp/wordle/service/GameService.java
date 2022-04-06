@@ -23,9 +23,16 @@ public class GameService {
     }
 
     public void setGuessesLeft(int gameId,int guessesLeft){
-        Game game = gameRepository.findById(gameId);
-        game.setGuessesLeft(guessesLeft);
-        gameRepository.save(game);
+        try {
+            if (guessesLeft<0){
+                throw new ArithmeticException("Guesses can't be negative");
+            }
+            Game game = gameRepository.findById(gameId);
+            game.setGuessesLeft(guessesLeft);
+            gameRepository.save(game);
+        } catch (NullPointerException e){
+            System.out.println("Guesses not set.");
+        }
     }
 
 

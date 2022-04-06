@@ -3,6 +3,7 @@ import com.bootcamp.wordle.model.Word;
 import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ranges.RangeException;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,9 +15,17 @@ public class WordService {
 
     @Autowired
     private WordRepository wordRepository;
-    public List<Word> getAllWords(){
-        List<Word> wordList = new ArrayList<>();
-        wordRepository.findAll().forEach(wordList::add);
+    public List<Word> getAllWords() {
+        List<Word> wordList = null;
+        try {
+            wordList = new ArrayList<>();
+            wordRepository.findAll().forEach(wordList::add);
+
+        } catch (NullPointerException e) {
+            System.out.println("List not populated.");
+        } catch (RangeException e){
+            throw e;
+        }
         return wordList;
     }
 
@@ -24,11 +33,12 @@ public class WordService {
         return wordRepository.existsByWord(tryWord);
     }
 
-    public static int[] compareWords(String userSubmittedWord, String gameSessionWord){
+    public int[] compareWords(String userSubmittedWord, String gameSessionWord){
+        int[] letterPlacement = new int[5];
+        try{
         char[] userSubmittedCharArray  = userSubmittedWord.toLowerCase().toCharArray();
         char[] gameSessionCharArray = gameSessionWord.toLowerCase().toCharArray();
         //Hardcoded Size for now
-        int[] letterPlacement = new int[5];
 
         for(int i = 0; i < userSubmittedCharArray.length; i++) {
             if (gameSessionCharArray[i] == userSubmittedCharArray[i]) {
@@ -46,6 +56,9 @@ public class WordService {
                 if (letterPlacement[i] != 2 && letterPlacement[i] != 3)
                     letterPlacement[i] = 1;
             }
+        }
+        } catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Wrong input size.");
         }
         return letterPlacement;
 
