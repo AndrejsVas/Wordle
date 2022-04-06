@@ -32,8 +32,10 @@ public class GameController {
         boolean isWin = guess.getWord().equals(foundGame.getWord());
         boolean isWord = wordService.getWordByName(guess.getWord());
         int guessesLeft = foundGame.getGuessesLeft();
-        //hardcoded size
         int[] letterPlacement = new int[5];
+        if(guessesLeft == 0)
+            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
+        //hardcoded size
         if(isWin){
             return new Answer(isWord,isWin,letterPlacement,guessesLeft);
         }
