@@ -38,7 +38,7 @@ public class GameController {
         }
         //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
         if(isWin || (!isWin && (guessesLeft-1 == 0)) ){
-            Answer answer = new Answer(isWord,isWin,letterPlacement,guessesLeft);
+            Answer answer = new Answer(isWord,isWin,letterPlacement,guessesLeft-1);
             gameService.finishGame(answer,foundGame);
             return answer;
         }
