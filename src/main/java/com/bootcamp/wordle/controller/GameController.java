@@ -22,7 +22,6 @@ public class GameController {
         return gameService.createGame(userName);
     }
 
-    @GetMapping("/api/createUser")
 
     @PostMapping("/api/guess")
     public Answer takeAGuess(@RequestBody Guess guess){
