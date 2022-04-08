@@ -17,6 +17,7 @@ public class User {
     private int totalNumberOfGames;
     private int currentWinstreak;
     private int longestWinstreak;
+    private int numberOfWins;
     private int winrate;
     private int[] guessedWordsAtAttempt;
 
@@ -91,6 +92,11 @@ public class User {
         this.guessedWordsAtAttempt = guessedWordsAtAttempt;
     }
 
+    public int getNumberOfWins() {
+        return numberOfWins;
+    }
 
-
+    public void setNumberOfWins(int numberOfWins) {
+        this.numberOfWins = numberOfWins;
+    }
 }
