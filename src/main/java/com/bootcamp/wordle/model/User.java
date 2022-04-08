@@ -1,6 +1,7 @@
 package com.bootcamp.wordle.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 
@@ -20,14 +21,14 @@ public class User {
     private int[] guessedWordsAtAttempt;
 
 
-    @OneToOne(mappedBy = "user")
-    private Game game;
+    @OneToMany(mappedBy = "user")
+    private Set<Game> game;
 
-    public Game getGame() {
+    public Set<Game> getGame() {
         return game;
     }
 
-    public void setGame(Game game) {
+    public void setGame(Set<Game> game) {
         this.game = game;
     }
 
