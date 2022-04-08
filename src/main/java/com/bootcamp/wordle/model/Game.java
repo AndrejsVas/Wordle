@@ -9,10 +9,12 @@ import java.sql.Timestamp;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name= "game")
 public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     private String word;
 
@@ -23,6 +25,22 @@ public class Game {
 
     private int guessesLeft;
     private int difficulty;
+
+
+    private boolean multiplayer;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public User getUserId() {
+        return user;
+    }
+
+    public void setUserId(User user) {
+        this.user = user;
+    }
+
+
 
     public Game(){
         this.lastActiveTime = System.currentTimeMillis();
@@ -75,6 +93,15 @@ public class Game {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+    public boolean isMultiplayer() {
+        return multiplayer;
+    }
+
+    public void setMultiplayer(boolean multiplayer) {
+        this.multiplayer = multiplayer;
+    }
+
+
 
 
 

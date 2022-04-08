@@ -6,10 +6,7 @@ import com.bootcamp.wordle.model.Guess;
 import com.bootcamp.wordle.service.GameService;
 import com.bootcamp.wordle.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class GameController {
@@ -19,11 +16,13 @@ public class GameController {
     @Autowired
     private WordService wordService;
 
+    //createGameSession?userName=sampleName
     @GetMapping("/api/createGameSession")
-    public int createGameSession() {
-        Game game = gameService.createGame(6);
-        return game.getId();
+    public int createGameSession(@RequestParam String userName) {
+        return gameService.createGame(userName);
     }
+
+    @GetMapping("/api/createUser")
 
     @PostMapping("/api/guess")
     public Answer takeAGuess(@RequestBody Guess guess){

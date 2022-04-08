@@ -1,5 +1,6 @@
 package com.bootcamp.wordle.service;
 import com.bootcamp.wordle.model.Game;
+import com.bootcamp.wordle.model.User;
 import com.bootcamp.wordle.model.Word;
 import com.bootcamp.wordle.repository.GameRepository;
 import com.bootcamp.wordle.repository.WordRepository;
@@ -18,11 +19,17 @@ public class GameService {
     private GameRepository gameRepository;
     @Autowired
     private WordService wordService;
-    public Game createGame(int guessesAmount){
-        Game game = new Game( guessesAmount);
+    @Autowired
+    private UserService userService;
+    public int createGame(String Username){
+        Game game = new Game();
+        User user = userService.getUserByName(Username);
+        game.setUserId(user);
+        game.setGuessesLeft(6);
         game.setLastActiveTime(System.currentTimeMillis());
         game.setWord(wordService.findRandomWord());
-        return gameRepository.save(game);
+        gameRepository.save(game);
+        return game.getId();
 
     }
     public Game getGameById(int id){
