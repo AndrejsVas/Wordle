@@ -12,6 +12,15 @@ public class UserService {
 
     public User getUserByName(String userName){
         if (!userRepository.existsByUserName(userName)){
+            //TODO: HANDLE IF NO USER EXISTS
+            return null;
+        }
+        User userToReturn =  userRepository.findByUserName(userName);
+        userToReturn.setGame(null);
+        return userToReturn;
+    }
+    public User getUserByNameCreateIfNo(String userName){
+        if (!userRepository.existsByUserName(userName)){
             return createUser(userName);
         }
         return userRepository.findByUserName(userName);

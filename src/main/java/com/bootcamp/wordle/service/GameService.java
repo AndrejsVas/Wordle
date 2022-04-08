@@ -26,7 +26,7 @@ public class GameService {
 
     public int createGame(String Username) {
         Game game = new Game();
-        User user = userService.getUserByName(Username);
+        User user = userService.getUserByNameCreateIfNo(Username);
         game.setUserId(user);
         game.setGuessesLeft(6);
         game.setLastActiveTime(System.currentTimeMillis());
@@ -88,7 +88,8 @@ public class GameService {
             if(newWinstreak>gamePlayer.getLongestWinstreak())
                 gamePlayer.setLongestWinstreak(newWinstreak);
             int wonAtGuessNumber = finishedGame.getGuessesLeft();
-            guessedWordsAtAttempt[wonAtGuessNumber] = guessedWordsAtAttempt[wonAtGuessNumber] + 1;
+            //TODO:6 is hardcoded try Attempt
+            guessedWordsAtAttempt[6-wonAtGuessNumber] = guessedWordsAtAttempt[6-wonAtGuessNumber] + 1;
             gamePlayer.setNumberOfWins(gamePlayer.getNumberOfWins()+1);
             gamePlayer.setGuessedWordsAtAttempt(guessedWordsAtAttempt);
         }
