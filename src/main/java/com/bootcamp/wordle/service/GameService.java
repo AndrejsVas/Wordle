@@ -1,4 +1,6 @@
 package com.bootcamp.wordle.service;
+
+import com.bootcamp.wordle.model.Answer;
 import com.bootcamp.wordle.model.Game;
 import com.bootcamp.wordle.model.User;
 import com.bootcamp.wordle.model.Word;
@@ -21,7 +23,8 @@ public class GameService {
     private WordService wordService;
     @Autowired
     private UserService userService;
-    public int createGame(String Username){
+
+    public int createGame(String Username) {
         Game game = new Game();
         User user = userService.getUserByName(Username);
         game.setUserId(user);
@@ -32,43 +35,78 @@ public class GameService {
         return game.getId();
 
     }
-    public Game getGameById(int id){
+
+    public Game getGameById(int id) {
         return gameRepository.findById(id);
     }
 
-    public void setGuessesLeft(int gameId,int guessesLeft){
+    public void setGuessesLeft(int gameId, int guessesLeft) {
         try {
-            if (guessesLeft<0){
+            if (guessesLeft < 0) {
                 throw new ArithmeticException("Guesses can't be negative");
             }
             Game game = gameRepository.findById(gameId);
             game.setGuessesLeft(guessesLeft);
             gameRepository.save(game);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Guesses not set.");
         }
     }
 
     @Scheduled(fixedRate = 60000, initialDelay = 1000)
-    public void checkSessionExpiration(){
+    public void checkSessionExpiration() {
         List<Game> allGames = new ArrayList<>();
         gameRepository.findAll().forEach(allGames::add);
-        for(Game currentGame : allGames){
-            if(isGameExpired(currentGame)){
-                gameRepository.delete(currentGame);
+        for (Game currentGame : allGames) {
+            if (isGameExpired(currentGame)) {
+                deleteGame(currentGame);
             }
         }
     }
 
-    public boolean isGameExpired(Game currentGame){
+    public boolean isGameExpired(Game currentGame) {
         long lastActiveTime = currentGame.getLastActiveTime();
         long currentTime = System.currentTimeMillis();
         long timeElapsed = currentTime - lastActiveTime;
         return timeElapsed > SESSION_EXPIRATION;
     }
 
-    public void extendGameSessionLife(Game currentGame){
+    public void extendGameSessionLife(Game currentGame) {
         currentGame.setLastActiveTime(System.currentTimeMillis());
         gameRepository.save(currentGame);
+    }
+
+    //TODO Maybe some joins here
+    //TODO: Potential refactoring
+    public void finishGame(Answer answer, Game finishedGame) {
+        User gamePlayer = finishedGame.getUser();
+        gamePlayer.setTotalNumberOfGames(gamePlayer.getTotalNumberOfGames() + 1);
+        int[] guessedWordsAtAttempt = gamePlayer.getGuessedWordsAtAttempt();
+        if (answer.isWin()) {
+            int newWinstreak = gamePlayer.getCurrentWinstreak() +1;
+            gamePlayer.setCurrentWinstreak(newWinstreak);
+            if(newWinstreak>gamePlayer.getLongestWinstreak())
+                gamePlayer.setLongestWinstreak(newWinstreak);
+            int wonAtGuessNumber = finishedGame.getGuessesLeft();
+            guessedWordsAtAttempt[wonAtGuessNumber] = guessedWordsAtAttempt[wonAtGuessNumber] + 1;
+            gamePlayer.setNumberOfWins(gamePlayer.getNumberOfWins()+1);
+            gamePlayer.setGuessedWordsAtAttempt(guessedWordsAtAttempt);
+        }
+        if(!answer.isWin()){
+            gamePlayer.setCurrentWinstreak(0);
+        }
+        int wins = gamePlayer.getNumberOfWins();
+        int total = gamePlayer.getTotalNumberOfGames();
+        int winrate = (wins*100/total);
+        gamePlayer.setWinrate(winrate);
+        userService.saveUser(gamePlayer);
+        deleteGame(finishedGame);
+
+    }
+
+    public void deleteGame(Game gameToDelete){
+        gameToDelete.setUser(null);
+        gameRepository.delete(gameToDelete);
+
     }
 }

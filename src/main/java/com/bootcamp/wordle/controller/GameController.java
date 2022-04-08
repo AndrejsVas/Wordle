@@ -27,15 +27,20 @@ public class GameController {
     public Answer takeAGuess(@RequestBody Guess guess){
 
         Game foundGame =  gameService.getGameById(guess.getId());
+        int guessesLeft = foundGame.getGuessesLeft();
         boolean isWin = guess.getWord().equals(foundGame.getWord());
         boolean isWord = wordService.getWordByName(guess.getWord());
-        int guessesLeft = foundGame.getGuessesLeft();
         int[] letterPlacement = new int[5];
-        if(guessesLeft == 0)
-            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
-        //hardcoded size
-        if(isWin){
-            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
+        //GAME IS ALREADY FINISHED
+        if(guessesLeft == 0){
+            //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
+            return new Answer(false,false,letterPlacement,guessesLeft-1);
+        }
+        //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
+        if(isWin || (!isWin && (guessesLeft-1 == 0)) ){
+            Answer answer = new Answer(isWord,isWin,letterPlacement,guessesLeft);
+            gameService.finishGame(answer,foundGame);
+            return answer;
         }
         else if( !isWord){
             gameService.extendGameSessionLife(foundGame);
