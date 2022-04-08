@@ -8,7 +8,7 @@ class Game extends React.Component {
     state = { activeInput: 1 };
 
     componentDidMount() {
-        fetch('/api/createGameSession')
+        fetch('/api/createGameSession?userName=UserNameNotImplemented')
             .then(response => response.text())
             .then(Id => {
                 this.setState({ ...this.state, gameId: Id });
