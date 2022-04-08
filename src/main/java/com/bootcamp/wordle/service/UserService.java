@@ -12,18 +12,18 @@ public class UserService {
 
     public User getUserByName(String userName){
         if (!userRepository.existsByUserName(userName)){
-            return createUser();
+            return createUser(userName);
         }
         return userRepository.findByUserName(userName);
     }
-//Hardcoded for now
-    public User createUser(){
+
+    public User createUser(String userName){
         User newUser = new User();
-        newUser.setUserName("Chel");
+        newUser.setUserName(userName);
         newUser.setTotalNumberOfGames(0);
         newUser.setCurrentWinstreak(0);
         newUser.setLongestWinstreak(0);
-        newUser.setWinrate(60);
+        newUser.setWinrate(0);
         int[] guessedWordsAtAttempt = new int[6];
         newUser.setGuessedWordsAtAttempt(guessedWordsAtAttempt);
 
