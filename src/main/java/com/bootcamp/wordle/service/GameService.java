@@ -23,9 +23,6 @@ public class GameService {
     public int createGame(User user) {
 
         User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
-       //TODO: Add messages to exceptions
-        if(returnedUser == null)
-            throw new NoSuchElementException();
         Game game = new Game();
         game.setUser(returnedUser);
         game.setWord(wordService.findRandomWord());
@@ -110,7 +107,7 @@ public class GameService {
     public Answer makeAGuess(Guess userGuess){
         Game foundGame =  getGameById(userGuess.getId());
         if(foundGame == null)
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Game not found");
         int guessesLeft = foundGame.getGuessesLeft();
         boolean isWin = userGuess.getWord().equals(foundGame.getWord());
         boolean isWord = wordService.getWordByName(userGuess.getWord());
