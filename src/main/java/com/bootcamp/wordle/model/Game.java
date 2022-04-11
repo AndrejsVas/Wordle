@@ -24,13 +24,6 @@ public class Game {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public User getUserId() {
-        return user;
-    }
-
-    public void setUserId(User user) {
-        this.user = user;
-    }
 
 
 

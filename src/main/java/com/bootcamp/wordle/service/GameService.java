@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,7 +27,7 @@ public class GameService {
         if(returnedUser == null)
             throw new NoSuchElementException();
         Game game = new Game();
-        game.setUserId(returnedUser);
+        game.setUser(returnedUser);
         game.setWord(wordService.findRandomWord());
         gameRepository.save(game);
         return game.getId();
@@ -141,6 +140,10 @@ public class GameService {
     public void deleteGame(Game gameToDelete){
         gameToDelete.setUser(null);
         gameRepository.delete(gameToDelete);
+
+    }
+    public void saveGame(Game gameToSave){
+        gameRepository.save(gameToSave);
 
     }
 }

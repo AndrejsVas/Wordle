@@ -5,6 +5,8 @@ import com.bootcamp.wordle.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class UserService {
     @Autowired
@@ -12,8 +14,8 @@ public class UserService {
 
     public User getUserByName(String userName){
         if (!userRepository.existsByUserName(userName)){
-            //TODO: HANDLE IF NO USER EXISTS
-            return null;
+            throw new NoSuchElementException("No such user exists");
+
         }
         User userToReturn =  userRepository.findByUserName(userName);
         userToReturn.setGame(null);
