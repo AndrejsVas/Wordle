@@ -10,6 +10,19 @@ class Game extends React.Component {
         charList: Array('z'.charCodeAt(0) - 'a'.charCodeAt(0)).fill(0)
     };
 
+    componentDidMount() {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userName: this.props.userName })
+        };
+        fetch('/api/createGameSessionx', requestOptions)
+            .then(response => response.json())
+            .then(Id => this.setState({
+                gameId: Id
+            }))
+    };
+
     updateCharList = (word, charStatus) => {
         word = word.toLowerCase();
         let updatedList = this.state.charList;
@@ -26,6 +39,7 @@ class Game extends React.Component {
             <div className="game">
                 <h1 className="App-title">NOT wordle</h1>
                 <GameGrid
+                    gameId={this.state.gameId}
                     attempts={6}
                     wordLength={5}
                     onUpdateCharList={this.updateCharList}

@@ -7,14 +7,6 @@ class GameGrid extends Component {
 
     state = { activeInput: 0 };
 
-    componentDidMount() {
-        fetch('/api/createGameSession?userName=UserNameNotImplemented')
-            .then(response => response.text())
-            .then(Id => {
-                this.setState({ ...this.state, gameId: Id });
-            });
-    };
-
     handleNextInput = () => {
         this.setState(prevState => { return { activeInput: prevState.activeInput + 1 } })
     }
@@ -28,7 +20,7 @@ class GameGrid extends Component {
             items.push(
                 <InputWord
                     wordLength={wordLength}
-                    gameId={this.state.gameId}
+                    gameId={this.props.gameId}
                     isActive={this.state.activeInput == i}
                     onNextInput={this.handleNextInput}
                     onUpdateCharList={onUpdateCharList}
