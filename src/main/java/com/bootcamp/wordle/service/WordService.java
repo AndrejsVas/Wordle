@@ -1,5 +1,6 @@
 package com.bootcamp.wordle.service;
 import com.bootcamp.wordle.model.Word;
+import com.bootcamp.wordle.repository.ExtendedWordRepository;
 import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,8 @@ public class WordService {
 
     @Autowired
     private WordRepository wordRepository;
+    @Autowired
+    private ExtendedWordRepository extendedWordRepository;
     public List<Word> getAllWords() {
         List<Word> wordList = null;
         try {
@@ -31,7 +34,7 @@ public class WordService {
     }
 
     public boolean getWordByName(String tryWord){
-        return wordRepository.existsByWord(tryWord);
+        return extendedWordRepository.existsByWord(tryWord);
     }
 
     public int[] compareWords(String userSubmittedWord, String gameSessionWord){
