@@ -18,8 +18,7 @@ class KeyboardDisplay extends Component {
     }
   }
 
-  render(){
-    console.log(this.props.charColor[1]);
+  render() {
     return (
       <div className="wrapper noselect">
         <div className="q" style={{backgroundColor: this.onChange(this.props.charColor[16])}}>Q</div>

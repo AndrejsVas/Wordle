@@ -16,7 +16,7 @@ class Game extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userName: this.props.userName })
         };
-        fetch('/api/createGameSessionx', requestOptions)
+        fetch('/api/createGameSession', requestOptions)
             .then(response => response.json())
             .then(Id => this.setState({
                 gameId: Id
