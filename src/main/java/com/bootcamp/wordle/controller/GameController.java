@@ -32,6 +32,13 @@ public class GameController {
         return new ResponseEntity<Answer>(answerForGuess,HttpStatus.OK);
     }
 
+    @PostMapping("/api/pickAWord")
+    public Game pickAWord(@RequestBody Game game){
+        gameService.createGameFromPickedWord(game);
+        return game;
+
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<String> handleNoSuchElementFoundException(

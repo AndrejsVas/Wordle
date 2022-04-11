@@ -32,6 +32,11 @@ public class GameService {
         return game.getId();
 
     }
+    public int createGameFromPickedWord(Game game){
+
+        gameRepository.save(game);
+        return game.getId();
+    }
 
     public Game getGameById(int id) {
         return gameRepository.findById(id);
