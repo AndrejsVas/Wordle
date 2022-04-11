@@ -1,0 +1,57 @@
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+  @media screen and (max-width: 340px) {
+    .wrapper div {
+        display: none !important;
+    }
+}
+.wrapper {
+    display: grid;    
+    gap: 6px;
+    grid-template-columns:  repeat(22, 2vh);
+    grid-template-rows: repeat(3, 4vh);
+    grid-row-gap: 1vh;
+    align-items: center;
+    padding-left: 5vh;
+    margin-top: 10%;
+  }
+.wrapper div {
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+    font-size: 3vh;   
+}
+.q, .w, .e, .r, .t, .y, .u, .i, .o, .p{
+    grid-row: 1 ;
+    grid-column: span 2;
+}
+.wrapper .hold1 {
+    background-color: #282c34;
+    color: #282c34;
+    grid-row: 2;
+}
+.a, .s, .d, .f, .g, .h, .j, .k, .l{
+    grid-row: 2;
+    grid-column: span 2;
+}
+.wrapper .hold2 {
+    background-color: #282c34;
+    color: #282c34;
+    grid-row: 3;
+    grid-column: span 3;
+}
+.z, .x, .c, .v, .b, .n, .m {
+    grid-row: 3;
+    grid-column: span 2;
+    justify-self: stretch;
+}
+
+
+ 
