@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import InputBox from './InputBox'
 
-class WordInput extends Component {
+class InputWord extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -124,10 +124,11 @@ class WordInput extends Component {
     }
 
     wordAccepted = () => {
-        this.setState({ isGuessingDone: true, isSending: false })
-        this.setState(prevState => { return { isReadOnly: prevState.isSending || prevState.isGuessingDone } })
-        this.props.onNextInput()
-    }
+        this.setState({ isGuessingDone: true, isSending: false });
+        this.setState(prevState => { return { isReadOnly: prevState.isSending || prevState.isGuessingDone } });
+        this.props.onUpdateCharList(this.answer, this.state.charStatus);
+        this.props.onNextInput();
+    };
 
     wordDenied = () => {
         this.setState({ isWordDenied: true })
@@ -168,4 +169,4 @@ class WordInput extends Component {
     }
 }
 
-export default WordInput;
+export default InputWord;
