@@ -24,10 +24,7 @@ public class Game {
     private long lastActiveTime;
 
     private int guessesLeft;
-    private int difficulty;
 
-
-    private boolean multiplayer;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -44,6 +41,7 @@ public class Game {
 
     public Game(){
         this.lastActiveTime = System.currentTimeMillis();
+        this.guessesLeft = 6;
 
     }
     public Game(int guessesLeft){
@@ -86,20 +84,6 @@ public class Game {
     }
 
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-    public boolean isMultiplayer() {
-        return multiplayer;
-    }
-
-    public void setMultiplayer(boolean multiplayer) {
-        this.multiplayer = multiplayer;
-    }
 
     public User getUser() {
         return user;
