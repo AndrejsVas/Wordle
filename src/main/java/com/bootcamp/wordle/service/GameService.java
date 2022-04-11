@@ -21,12 +21,14 @@ public class GameService {
     @Autowired
     private UserService userService;
 
-    public int createGame(String Username) {
+    public int createGame(User user) {
+
+        User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
+       //TODO: Add messages to exceptions
+        if(returnedUser == null)
+            throw new NoSuchElementException();
         Game game = new Game();
-        User user = userService.getUserByNameCreateIfNo(Username);
-        game.setUserId(user);
-        game.setGuessesLeft(6);
-        game.setLastActiveTime(System.currentTimeMillis());
+        game.setUserId(returnedUser);
         game.setWord(wordService.findRandomWord());
         gameRepository.save(game);
         return game.getId();

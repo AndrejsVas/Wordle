@@ -17,14 +17,9 @@ public class Game {
     @Column(name = "id")
     private int id;
     private String word;
-
-
-
     @Column(name = "modified_date")
     private long lastActiveTime;
-
     private int guessesLeft;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

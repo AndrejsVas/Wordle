@@ -3,6 +3,7 @@ package com.bootcamp.wordle.controller;
 import com.bootcamp.wordle.model.Answer;
 import com.bootcamp.wordle.model.Game;
 import com.bootcamp.wordle.model.Guess;
+import com.bootcamp.wordle.model.User;
 import com.bootcamp.wordle.service.GameService;
 import com.bootcamp.wordle.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,10 @@ public class GameController {
     private WordService wordService;
 
     //createGameSession?userName=sampleName
-    @GetMapping("/api/createGameSession")
-    public int createGameSession(@RequestParam String userName) {
-        return gameService.createGame(userName);
+    @PostMapping("/api/createGameSession")
+    public int createGameSession(@RequestBody User user) {
+        return gameService.createGame(user);
+
     }
 
 
@@ -33,9 +35,9 @@ public class GameController {
     }
 
     @PostMapping("/api/pickAWord")
-    public Game pickAWord(@RequestBody Game game){
-        gameService.createGameFromPickedWord(game);
-        return game;
+    public int pickAWord(@RequestBody Game game){
+        return gameService.createGameFromPickedWord(game);
+
 
     }
 
