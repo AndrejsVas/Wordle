@@ -1,37 +1,37 @@
 import React from 'react';
-import WordInput from './WordInput';
+import GameGrid from './GameGrid';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 class Game extends React.Component {
 
-    state = { activeInput: 1 };
-
-    componentDidMount() {
-        fetch('/api/createGameSession?userName=UserNameNotImplemented')
-            .then(response => response.text())
-            .then(Id => {
-                this.setState({ ...this.state, gameId: Id });
-            });
+    state = {
+        charList: Array('z'.charCodeAt(0) - 'a'.charCodeAt(0)).fill(0)
     };
 
-    handleNextInput = () => {
-        this.setState(prevState => { return { activeInput: prevState.activeInput + 1 } })
-    }
+    updateCharList = (word, charStatus) => {
+        word = word.toLowerCase();
+        let updatedList = this.state.charList;
+        for (let i = 0; i < word.length; i++) {
+            if (charStatus[i] > updatedList[word.charCodeAt(i) - 'a'.charCodeAt(0)]) {
+                updatedList[word.charCodeAt(i) - 'a'.charCodeAt(0)] = charStatus[i];
+            };
+        };
+        this.setState({ charList: updatedList });
+    };
 
     render() {
         return (
             <div className="game">
                 <h1 className="App-title">NOT wordle</h1>
-                <WordInput wordLength={5} gameId={this.state.gameId} isActive={this.state.activeInput == 1} onNextInput={this.handleNextInput} />
-                <WordInput wordLength={5} gameId={this.state.gameId} isActive={this.state.activeInput == 2} onNextInput={this.handleNextInput} />
-                <WordInput wordLength={5} gameId={this.state.gameId} isActive={this.state.activeInput == 3} onNextInput={this.handleNextInput} />
-                <WordInput wordLength={5} gameId={this.state.gameId} isActive={this.state.activeInput == 4} onNextInput={this.handleNextInput} />
-                <WordInput wordLength={5} gameId={this.state.gameId} isActive={this.state.activeInput == 5} onNextInput={this.handleNextInput} />
-                <WordInput wordLength={5} gameId={this.state.gameId} isActive={this.state.activeInput == 6} onNextInput={this.handleNextInput} />
+                <GameGrid
+                    attempts={6}
+                    wordLength={5}
+                    onUpdateCharList={this.updateCharList}
+                />
             </div>
         );
-    }
-}
+    };
+};
 
 export default Game;
