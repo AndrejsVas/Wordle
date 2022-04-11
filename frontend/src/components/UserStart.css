@@ -1,0 +1,30 @@
+.userStartPop {
+    color: black;
+}
+.userStart {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userStart-inner{
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    max-width: 720px;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.userStart-inner .close-btn {
+    position: absolute;
+    top:16px;
+    right: 16px;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import GameGrid from './GameGrid';
+import KeyboardDisplay from './Keyboard';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -28,6 +29,9 @@ class Game extends React.Component {
                     attempts={6}
                     wordLength={5}
                     onUpdateCharList={this.updateCharList}
+                />
+                <KeyboardDisplay
+                    charColor ={this.state.charList}    
                 />
             </div>
         );

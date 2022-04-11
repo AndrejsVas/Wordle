@@ -4,6 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Game from './components/Game';
+import UserStartPop from './components/UserStartPop';
 
 class App extends Component {
 
@@ -13,6 +14,8 @@ class App extends Component {
                 <header className="App-header">
                     <Game />
                  <RulesPop />
+                 <UserStartPop />
+
                 </header>                             
             </div>
         );
