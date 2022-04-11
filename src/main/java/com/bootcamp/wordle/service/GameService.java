@@ -2,7 +2,6 @@ package com.bootcamp.wordle.service;
 
 import com.bootcamp.wordle.model.*;
 import com.bootcamp.wordle.repository.GameRepository;
-import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class GameService {
@@ -103,6 +103,8 @@ public class GameService {
     }
     public Answer makeAGuess(Guess userGuess){
         Game foundGame =  getGameById(userGuess.getId());
+        if(foundGame == null)
+            throw new NoSuchElementException();
         int guessesLeft = foundGame.getGuessesLeft();
         boolean isWin = userGuess.getWord().equals(foundGame.getWord());
         boolean isWord = wordService.getWordByName(userGuess.getWord());

@@ -6,7 +6,10 @@ import com.bootcamp.wordle.model.Guess;
 import com.bootcamp.wordle.service.GameService;
 import com.bootcamp.wordle.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.NoSuchElementException;
 
 @RestController
 public class GameController {
@@ -24,13 +27,20 @@ public class GameController {
 
 
     @PostMapping("/api/guess")
-    public Answer takeAGuess(@RequestBody Guess guess){
+    public ResponseEntity<Answer> takeAGuess(@RequestBody Guess guess) {
         Answer answerForGuess = gameService.makeAGuess(guess);
-        return answerForGuess;
-
-
+        return new ResponseEntity<Answer>(answerForGuess,HttpStatus.OK);
     }
 
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleNoSuchElementFoundException(
+            NoSuchElementException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(exception.getMessage());
+    }
 
 
 }
