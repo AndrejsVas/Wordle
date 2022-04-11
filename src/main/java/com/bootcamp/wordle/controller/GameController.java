@@ -25,31 +25,8 @@ public class GameController {
 
     @PostMapping("/api/guess")
     public Answer takeAGuess(@RequestBody Guess guess){
-
-        Game foundGame =  gameService.getGameById(guess.getId());
-        int guessesLeft = foundGame.getGuessesLeft();
-        boolean isWin = guess.getWord().equals(foundGame.getWord());
-        boolean isWord = wordService.getWordByName(guess.getWord());
-        int[] letterPlacement = new int[5];
-        //GAME IS ALREADY FINISHED
-        if(guessesLeft == 0){
-            //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
-            return new Answer(false,false,letterPlacement,guessesLeft-1);
-        }
-        //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
-        if(isWin || (!isWin && (guessesLeft-1 == 0)) ){
-            Answer answer = new Answer(isWord,isWin,letterPlacement,guessesLeft-1);
-            gameService.finishGame(answer,foundGame);
-            return answer;
-        }
-        else if( !isWord){
-            gameService.extendGameSessionLife(foundGame);
-            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
-        }
-        gameService.extendGameSessionLife(foundGame);
-        gameService.setGuessesLeft(foundGame.getId(),guessesLeft-1);
-        letterPlacement = wordService.compareWords(guess.getWord(),foundGame.getWord());
-        return new Answer(isWord,isWin,letterPlacement,foundGame.getGuessesLeft());
+        Answer answerForGuess = gameService.makeAGuess(guess);
+        return answerForGuess;
 
 
     }

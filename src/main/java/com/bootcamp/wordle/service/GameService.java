@@ -1,9 +1,6 @@
 package com.bootcamp.wordle.service;
 
-import com.bootcamp.wordle.model.Answer;
-import com.bootcamp.wordle.model.Game;
-import com.bootcamp.wordle.model.User;
-import com.bootcamp.wordle.model.Word;
+import com.bootcamp.wordle.model.*;
 import com.bootcamp.wordle.repository.GameRepository;
 import com.bootcamp.wordle.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +101,34 @@ public class GameService {
         deleteGame(finishedGame);
 
     }
+    public Answer makeAGuess(Guess userGuess){
+        Game foundGame =  getGameById(userGuess.getId());
+        int guessesLeft = foundGame.getGuessesLeft();
+        boolean isWin = userGuess.getWord().equals(foundGame.getWord());
+        boolean isWord = wordService.getWordByName(userGuess.getWord());
+        int[] letterPlacement = new int[5];
+        //GAME IS ALREADY FINISHED
+        if(guessesLeft == 0){
+            //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
+            return new Answer(false,false,letterPlacement,guessesLeft-1);
+        }
+        //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
+        if(isWin || (!isWin && (guessesLeft-1 == 0)) ){
+            Answer answer = new Answer(isWord,isWin,letterPlacement,guessesLeft-1);
+            finishGame(answer,foundGame);
+            return answer;
+        }
+        else if( !isWord){
+            extendGameSessionLife(foundGame);
+            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
+        }
+        extendGameSessionLife(foundGame);
+        setGuessesLeft(foundGame.getId(),guessesLeft-1);
+        letterPlacement = wordService.compareWords(userGuess.getWord(),foundGame.getWord());
+        return new Answer(isWord,isWin,letterPlacement,foundGame.getGuessesLeft());
 
+
+    }
     public void deleteGame(Game gameToDelete){
         gameToDelete.setUser(null);
         gameRepository.delete(gameToDelete);
