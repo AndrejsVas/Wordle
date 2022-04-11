@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import GameGrid from './GameGrid';
 import KeyboardDisplay from './Keyboard';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
-class Game extends React.Component {
+class Game extends Component {
 
     state = {
         charList: Array('z'.charCodeAt(0) - 'a'.charCodeAt(0)).fill(0)

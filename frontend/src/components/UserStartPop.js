@@ -7,7 +7,7 @@ class UserStartPop extends Component {
         super(props);
         this.state = {
           countStart: true,
-          value: ''
+          value: this.props.userName
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,7 +17,7 @@ class UserStartPop extends Component {
       }
     
       handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
+        this.props.setUserName(this.state.value);
         event.preventDefault();
       }
       userChange = () => {

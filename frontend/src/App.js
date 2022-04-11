@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator'
 
-import Game from './components/Game';
+import PreGame from './components/PreGame';
 import RulesPop from './components/RulesPop';
 import UserStartPop from './components/UserStartPop';
 
@@ -16,14 +16,21 @@ class App extends Component {
         userName: uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] })
     }
 
+    setUserName = userName => {
+        this.setState({ userName: userName })
+    }
+
     render() {
         console.log(this.state.userName);
         return (
             <div className="App">
                 <header className="App-header">
-                    <Game userName={this.state.userName} />
+                    <PreGame userName={this.state.userName} />
                  <RulesPop />
-                 <UserStartPop />
+                    <UserStartPop
+                        userName={this.state.userName}
+                        setUserName={this.setUserName}
+                    />
 
                 </header>
             </div>
