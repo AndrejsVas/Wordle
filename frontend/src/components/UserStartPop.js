@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import UserStart from './UserStart';
+import PreGame from './PreGame';
 import './UserStart.css'
 
 class UserStartPop extends Component {
@@ -29,10 +30,10 @@ class UserStartPop extends Component {
             <UserStart trigger ={this.state.countStart} setTrigger ={this.userChange}>
                     <h1>Enter your Username:</h1> 
                     <form onSubmit={this.handleSubmit}>
-                        <label>Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                        </label>
-                    <input type="submit" value="Submit" />
+                        
+          <input id="userName-input" type="text" value={this.state.value} onChange={this.handleChange}  />
+          <span></span>              
+                    <input id="userName-submit" type="submit" value="Submit" onClick={()=>{this.userChange();this.props.gameStartState();}} />
                    </form>                  
             </UserStart>        
       </div>

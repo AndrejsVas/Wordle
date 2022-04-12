@@ -6,16 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 class PreGame extends Component {
 
-    state = {
-        gameStarted: false
-    }
+    
 
     handleGameStartButton = () => {
 
-        if (this.state.gameStarted) {
+        if (this.props.gameStarted) {
+            console.log("game state");
             return <Game userName={this.props.userName} />
         }
-        return <button onClick={() => { this.setState({ gameStarted: true }) }} className='button'> Start </button>
     }
 
     render() {

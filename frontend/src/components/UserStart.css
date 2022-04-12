@@ -28,3 +28,17 @@
     top:16px;
     right: 16px;
 }
+
+input[id="userName-input"] {
+    padding: 0.5em 1em;
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    outline: 0;
+}
+
+input[id="userName-submit"] {
+    padding: 0.5em 1em;
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+    outline: 0;
+}

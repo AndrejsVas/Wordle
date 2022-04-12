@@ -13,7 +13,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 class App extends Component {
 
     state = {
-        userName: uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] })
+        userName: uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] }),
+        gameStarted: false
+    }
+    
+
+    gameStartState = () => {
+        this.setState({ gameStarted: true });
+        console.log("hello"+this.state.gameStarted);
     }
 
     setUserName = userName => {
@@ -24,15 +31,17 @@ class App extends Component {
         console.log(this.state.userName);
         return (
             <div className="App">
-                <header className="App-header">
-                    <PreGame userName={this.state.userName} />
+                <div className="App-header">
+                    <PreGame userName={this.state.userName}
+                            gameStarted={this.state.gameStarted} />
                  <RulesPop />
                     <UserStartPop
                         userName={this.state.userName}
                         setUserName={this.setUserName}
+                        gameStartState={this.gameStartState}
                     />
 
-                </header>
+                </div>
             </div>
         );
     }
