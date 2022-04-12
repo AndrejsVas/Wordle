@@ -31,7 +31,7 @@ public class GameController {
 
     @Operation(summary = "Create a game session using a userName and return an integer with the game id")
     @ApiResponse(responseCode = "200", description = "Game session is created" )
-    @PostMapping(value = "/api/ createGameSession", consumes = "application/json")
+    @PostMapping(value = "/api/createGameSession", consumes = "application/json")
     public int createGameSession(
 
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Accepts the userName from the body")
