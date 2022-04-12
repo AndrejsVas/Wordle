@@ -2,6 +2,7 @@ package com.bootcamp.wordle.service;
 
 import com.bootcamp.wordle.model.*;
 import com.bootcamp.wordle.repository.GameRepository;
+import com.bootcamp.wordle.repository.MultiplayerGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -16,28 +17,52 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
     @Autowired
+    private MultiplayerGameRepository multiplayerGameRepository;
+    @Autowired
     private WordService wordService;
     @Autowired
     private UserService userService;
 
-    public int createGame(User user) {
-
+    public Game createGame(User user) {
+        //TODO: Potential improvement to next line
         User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
         Game game = new Game();
         game.setUser(returnedUser);
         game.setWord(wordService.findRandomWord());
+        game.setMultiplayer(false);
         gameRepository.save(game);
-        return game.getId();
+        return game;
 
     }
-    public int createGameFromPickedWord(Game game){
+
+    public Game createGame(User user, String wordToGuess, boolean isMultiplayer) {
+        //TODO: Potential improvement to next line
+        User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
+        Game game = new Game();
+        game.setUser(user);
+        game.setMultiplayer(isMultiplayer);
+        game.setWord(wordToGuess);
+        gameRepository.save(game);
+        return game;
+    }
+
+    public Game createGameFromPickedWord(Game game) {
 
         gameRepository.save(game);
-        return game.getId();
+        return game;
+    }
+
+    public MultiplayerGame createMultiplayerGameFromPickedWord(MultiplayerGame multiplayerGame) {
+        multiplayerGameRepository.save(multiplayerGame);
+        return multiplayerGame;
     }
 
     public Game getGameById(int id) {
         return gameRepository.findById(id);
+    }
+
+    public MultiplayerGame getMultiplayerGameById(int id) {
+        return multiplayerGameRepository.findById(id);
     }
 
     public void setGuessesLeft(int gameId, int guessesLeft) {
@@ -83,64 +108,93 @@ public class GameService {
         gamePlayer.setTotalNumberOfGames(gamePlayer.getTotalNumberOfGames() + 1);
         int[] guessedWordsAtAttempt = gamePlayer.getGuessedWordsAtAttempt();
         if (answer.isWin()) {
-            int newWinstreak = gamePlayer.getCurrentWinstreak() +1;
+            int newWinstreak = gamePlayer.getCurrentWinstreak() + 1;
             gamePlayer.setCurrentWinstreak(newWinstreak);
-            if(newWinstreak>gamePlayer.getLongestWinstreak())
+            if (newWinstreak > gamePlayer.getLongestWinstreak())
                 gamePlayer.setLongestWinstreak(newWinstreak);
             int wonAtGuessNumber = finishedGame.getGuessesLeft();
             //TODO:6 is hardcoded try Attempt
-            guessedWordsAtAttempt[6-wonAtGuessNumber] = guessedWordsAtAttempt[6-wonAtGuessNumber] + 1;
-            gamePlayer.setNumberOfWins(gamePlayer.getNumberOfWins()+1);
+            guessedWordsAtAttempt[6 - wonAtGuessNumber] = guessedWordsAtAttempt[6 - wonAtGuessNumber] + 1;
+            gamePlayer.setNumberOfWins(gamePlayer.getNumberOfWins() + 1);
             gamePlayer.setGuessedWordsAtAttempt(guessedWordsAtAttempt);
         }
-        if(!answer.isWin()){
+        if (!answer.isWin()) {
             gamePlayer.setCurrentWinstreak(0);
         }
         int wins = gamePlayer.getNumberOfWins();
         int total = gamePlayer.getTotalNumberOfGames();
-        int winrate = (wins*100/total);
+        int winrate = (wins * 100 / total);
         gamePlayer.setWinrate(winrate);
         userService.saveUser(gamePlayer);
+        if (finishedGame.isMultiplayer()){
+            recordMultiplayerStatistics(finishedGame);
+            deleteMultiplayerGame(finishedGame);
+        }
+        else
         deleteGame(finishedGame);
 
     }
-    public Answer makeAGuess(Guess userGuess){
-        Game foundGame =  getGameById(userGuess.getId());
-        if(foundGame == null)
+
+    public void recordMultiplayerStatistics(Game finishedGame) {
+//        MultiplayerGame multiplayerGame = multiplayerGameRepository.findBy(finishedGame);
+//        MultiplayerGame multiplayerGame = multiplayerGameRepository.findByGameList_id(finishedGame);
+        int test = 213;
+
+    }
+
+    public Answer makeAGuess(Guess userGuess) {
+        Game foundGame = getGameById(userGuess.getId());
+        if (foundGame == null)
             throw new NoSuchElementException("Game not found");
         int guessesLeft = foundGame.getGuessesLeft();
         boolean isWin = userGuess.getWord().equals(foundGame.getWord());
         boolean isWord = wordService.getWordByName(userGuess.getWord());
         int[] letterPlacement = new int[5];
         //GAME IS ALREADY FINISHED
-        if(guessesLeft == 0){
+        if (guessesLeft == 0) {
             //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
-            return new Answer(false,false,letterPlacement,guessesLeft-1);
+            return new Answer(false, false, letterPlacement, guessesLeft - 1);
         }
         //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
-        if(isWin || (!isWin && (guessesLeft-1 == 0)) ){
-            Answer answer = new Answer(isWord,isWin,letterPlacement,guessesLeft-1);
-            finishGame(answer,foundGame);
+        if (isWin || (!isWin && (guessesLeft - 1 == 0))) {
+            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1);
+            finishGame(answer, foundGame);
             return answer;
-        }
-        else if( !isWord){
+        } else if (!isWord) {
             extendGameSessionLife(foundGame);
-            return new Answer(isWord,isWin,letterPlacement,guessesLeft);
+            return new Answer(isWord, isWin, letterPlacement, guessesLeft);
         }
         extendGameSessionLife(foundGame);
-        setGuessesLeft(foundGame.getId(),guessesLeft-1);
-        letterPlacement = wordService.compareWords(userGuess.getWord(),foundGame.getWord());
-        return new Answer(isWord,isWin,letterPlacement,foundGame.getGuessesLeft());
+        setGuessesLeft(foundGame.getId(), guessesLeft - 1);
+        letterPlacement = wordService.compareWords(userGuess.getWord(), foundGame.getWord());
+        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft());
 
 
     }
-    public void deleteGame(Game gameToDelete){
+
+
+    public void deleteGame(Game gameToDelete) {
         gameToDelete.setUser(null);
-        gameRepository.delete(gameToDelete);
+        gameRepository.deleteById(gameToDelete.getId());
 
     }
-    public void saveGame(Game gameToSave){
+    public void deleteMultiplayerGame(Game gameToDelete){
+
+        MultiplayerGame multiplayerGame = multiplayerGameRepository.findByGameList_id(gameToDelete.getId());
+        multiplayerGame.getGameList().remove(gameToDelete.getUser().getUserId());
+        deleteGame(gameToDelete);
+        multiplayerGameRepository.save(multiplayerGame);
+
+        int test = 123;
+    }
+
+    public void saveGame(Game gameToSave) {
         gameRepository.save(gameToSave);
+
+    }
+
+    public void saveGame(MultiplayerGame gameToSave) {
+        multiplayerGameRepository.save(gameToSave);
 
     }
 }

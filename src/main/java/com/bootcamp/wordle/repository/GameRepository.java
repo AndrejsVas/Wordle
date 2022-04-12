@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GameRepository extends JpaRepository<Game, String> {
+public interface GameRepository extends JpaRepository<Game, Integer> {
     Game findById(int id);
+    //boolean deleteById(int id);
     List<Game> findAll();
 }
