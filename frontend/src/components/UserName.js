@@ -30,6 +30,7 @@ function Username({ userName, setUserName, genUserName }) {
 
     const handleChange = (event) => {
         setValue(event.target.value);
+        console.log(value)
     }
 
 
@@ -45,7 +46,7 @@ function Username({ userName, setUserName, genUserName }) {
                     <CloseButton variant="white" onClick={handleClose} />
                 </Modal.Header>
                 <Modal.Body >
-                    <InputGroup>
+                    <InputGroup className="mb-3">
                         <FormControl
                             placeholder={userName}
                             aria-label="UserName"

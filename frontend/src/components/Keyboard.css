@@ -4,29 +4,20 @@
     flex-direction: column;
     align-items: center;
     max-width: 100vw;
+    
+    flex-shrink: 2;
+  }
+.keyboard div {
+    display: flex;
 }
 .second-row {
     margin: 0.5rem 0;
 }
-.keyboard .keyboard-button {
-    font-size: min(1rem, calc(((100vh - 56px) * 0.3 - 54px) / 3 / 2.5), calc((90vw - 10 * 6px) / 10 / 2));
+.keyboard-button {
+    font-size: 1rem;
     font-weight: 700;
-    height: 2.5rem;
-    max-height: calc(((100vh - 56px) * 0.3 - 38px) / 3);
-    width: 2rem;
-    max-width: calc((90vw - 10 * 6px) / 10);
-    padding: 0;
+    padding: 0.5rem;
     margin: 0 2px;
     cursor: pointer;
     text-transform: uppercase;
-    vertical-align: middle;
-    }
-    .keyboard-button.enter {
-        width: 4rem;
-        max-width: calc((90vw - 10 * 6px) / 10 * 2);
-    }
-    
-    .keyboard-button.del {
-        width: 3rem;
-        max-width: calc((90vw - 10 * 6px) / 10 * 1.5);
-    }
+}
