@@ -23,6 +23,7 @@ public class Game {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    private boolean isMultiplayer;
 
 
 
@@ -71,7 +72,13 @@ public class Game {
         this.guessesLeft = guessesLeft;
     }
 
+    public boolean isMultiplayer() {
+        return isMultiplayer;
+    }
 
+    public void setMultiplayer(boolean multiplayer) {
+        isMultiplayer = multiplayer;
+    }
 
     public User getUser() {
         return user;
