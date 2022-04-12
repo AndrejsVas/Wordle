@@ -33,7 +33,7 @@ class UserStartPop extends Component {
                         
           <input id="userName-input" type="text" value={this.state.value} onChange={this.handleChange}  />
           <span></span>              
-                    <input id="userName-submit" type="submit" value="Submit" onClick={()=>{this.userChange();this.props.gameStartState();}} />
+                    <input id="userName-submit" type="submit" value="Submit" onClick={async () =>{await this.props.setUserName(this.state.value); this.userChange();this.props.gameStartState();}} />
                    </form>                  
             </UserStart>        
       </div>
