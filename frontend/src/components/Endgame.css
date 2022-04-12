@@ -1,7 +1,7 @@
-.userStartPop {
+.endgamepop {
     color: black;
 }
-.userStart {
+.endgame {
     position: fixed;
     top: 0;
     left: 0;
@@ -14,29 +14,25 @@
     align-items: center;
 }
 
-.userStart-inner{
+.endgame-inner{
     position: relative;
     padding: 32px;
     width: 100%;
-    max-width: 70%;
+    max-width: 720px;
     background-color: white;
     border-radius: 25px;
 }
 
-.userStart-inner .close-btn {
+.endgame-inner .close-btn {
     position: absolute;
     top:16px;
     right: 16px;
 }
 
-input[id="userName-input"] {
-    padding: 0.5em 1em;
-    border-radius: 2em;
-    outline: 0;
-}
-
-input[id="userName-submit"] {
-    padding: 0.5em 1em;
-    border-radius: 2em;
-    outline: 0;
+.endgame-display #box  {
+   
+    width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border: 2px solid green;
+    
 }

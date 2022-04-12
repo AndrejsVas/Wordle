@@ -11,6 +11,10 @@ class GameGrid extends Component {
         this.setState(prevState => { return { activeInput: prevState.activeInput + 1 } })
     }
 
+    setActiveInput = () => {
+        this.setState({activeInput: -1})
+    }
+
     renderItems() {
         const { attempts, wordLength, onUpdateCharList } = this.props
 
@@ -21,11 +25,14 @@ class GameGrid extends Component {
                 <InputWord
                     wordLength={wordLength}
                     gameId={this.props.gameId}
-                    isActive={this.state.activeInput == i}
+                    isActive={this.state.activeInput === i}
                     onNextInput={this.handleNextInput}
                     onUpdateCharList={onUpdateCharList}
                     key={i}
                     name={'inputWord' + i}
+                    setActiveInput={this.setActiveInput}
+                    isWin={this.props.isWin}
+                    setIsWin={this.props.setIsWin}
                 // inputRef={el => {
                 //     if (!el) return
                 //     this.inputElements[el.name] = el

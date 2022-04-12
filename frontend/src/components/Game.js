@@ -43,6 +43,8 @@ class Game extends Component {
                     attempts={6}
                     wordLength={5}
                     onUpdateCharList={this.updateCharList}
+                    isWin={this.props.isWin}
+                    setIsWin={this.props.setIsWin}
                 />
                 <KeyboardDisplay
                     charColor ={this.state.charList}    

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import UserStart from './UserStart';
-import PreGame from './PreGame';
 import './UserStart.css'
 
 class UserStartPop extends Component {

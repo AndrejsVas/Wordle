@@ -93,11 +93,11 @@ class InputWord extends Component {
             }
         }
     }
-
+ 
     sendAnswer = async () => {
         this.setState({ isSending: true, isReadOnly: true })
         const wordGuess = this.answer.toLowerCase();
-        if (wordGuess.length == this.props.wordLength) {
+        if (wordGuess.length === this.props.wordLength) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -105,15 +105,18 @@ class InputWord extends Component {
             };
             await fetch('/api/guess', requestOptions)
                 .then(response => response.json())
-                .then(data => this.setState({
-                    isWord: data.word,
-                    isWin: data.win,
+                .then(data => {this.setState({
+                    isWord: data.word,                   
                     charStatus: data.win ? Array(this.props.wordLength * 1).fill(3) : data.charStatus
-                }))
+                })
+                if(data.win){
+                    this.props.setIsWin();
+                }    
+            })
             if (this.state.isWord) {
-                this.wordAccepted();
-                if (this.state.isWin) {
-                    this.onWin();  //TODO implement !!!
+                this.wordAccepted();               
+                if (this.props.isWin) {
+                    this.props.setActiveInput();
                 }
             } else {
                 this.wordDenied();

@@ -9,11 +9,16 @@ class PreGame extends Component {
     
 
     handleGameStartButton = () => {
-
+        if (this.props.isWin) {
+            return 
+        }
         if (this.props.gameStarted) {
             console.log("game state");
-            return <Game userName={this.props.userName} />
+            return <Game userName={this.props.userName}
+                        isWin={this.props.isWin}
+                        setIsWin={this.props.setIsWin} />
         }
+        
     }
 
     render() {
