@@ -63,10 +63,10 @@ public class GameController {
 
     }
     //We get gameId and userName
-    @Operation(summary = "Called when the user clicks the challenge link. Assigns the user to the game")
+    @Operation(summary = "Called when the user clicks the challenge link. Assigns the user to the game. Returns gaame id")
     @ApiResponse(responseCode = "200", description = "Game session is created" )
     @PostMapping(value = "/api/challengeLink" ,consumes = "application/json")
-    public void challengeLink(
+    public int challengeLink(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Accepts the id of the game and the" +
                     "username of the person accepting the challenge")
             @RequestBody Map<String, Object> payload){
@@ -76,6 +76,7 @@ public class GameController {
         User user = userService.getUserByNameCreateIfNo(userName);
         game.setUser(user);
         gameService.saveGame(game);
+        return gameId;
 
     }
 
