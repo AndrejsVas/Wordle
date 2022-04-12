@@ -8,6 +8,7 @@ import Endgame from './components/Endgame';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import ChallengePop from './components/ChallengePop';
 
 
 class App extends Component {
@@ -41,6 +42,7 @@ class App extends Component {
                             isWin={this.state.isWin}
                             setIsWin={this.setIsWin} />
                  <RulesPop />
+                 <ChallengePop />
                  <Endgame
                     isWin={this.state.isWin}
                     userName={this.state.userName} />
