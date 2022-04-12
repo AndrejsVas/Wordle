@@ -18,7 +18,7 @@ class App extends Component {
         gameStarted: false,
         isWin: false
     }
-    
+
     setIsWin = () => {
         this.setState({isWin: true});
     }
