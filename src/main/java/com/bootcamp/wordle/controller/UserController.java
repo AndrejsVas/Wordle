@@ -17,7 +17,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    //user/getStats?userName=sampleName
     @Operation(summary = "Get individual statistics for a specific user")
     @ApiResponse(responseCode = "200", description = "User statistics fetched" )
     @ApiResponse(responseCode = "404", description = "User not found" )
