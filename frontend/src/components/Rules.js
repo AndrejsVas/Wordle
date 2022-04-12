@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import { Modal, Image, CloseButton } from "react-bootstrap";
 
-import './Rules.css'
-
 import gray from '../images/Gray.png';
 import green from '../images/Green.png';
 import yellow from '../images/Yellow.png';
@@ -21,12 +19,12 @@ function Rules() {
             </div>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header className="modal-content flex-row">
+                <Modal.Header className="flex-row">
                     <Modal.Title>Rules</Modal.Title>
                     <CloseButton variant="white" onClick={handleClose} />
                 </Modal.Header>
-                <Modal.Body className="modal-content">
-                    <div>Guess 5-letter word in 6 attempts <br /> <hr />
+                <Modal.Body >
+                    <div>Guess 5-letter word in 6 attempts <br /> <hr />  {/*TODO rework rules. use html instead of img */}
                         <Image src={green} fluid alt="Green explanation" /> <br />
                         If the letter is highlighted as <b>GREEN</b>, the letter position is correct. <br /> <hr />
                         <Image src={yellow} fluid alt="Yellow explanation" /> <br />

@@ -1,57 +1,70 @@
 import React, { Component } from 'react';
-import GameGrid from './GameGrid';
-import KeyboardDisplay from './Keyboard';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Button } from 'react-bootstrap';
+
+import './Game.css'
+import Keyboard from './Keyboard';
+
 
 
 class Game extends Component {
 
     state = {
-        charList: Array('z'.charCodeAt(0) - 'a'.charCodeAt(0)).fill(0)
-    };
+        isGameStarted: false
+    }
 
-    componentDidMount() {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userName: this.props.userName })
-        };
-        fetch('/api/createGameSession', requestOptions)
-            .then(response => response.json())
-            .then(Id => this.setState({
-                gameId: Id
-            }))
-    };
+    startGame = () => {
+        if (!this.state.isGameStarted) {
+            return (
+                <Button
+                    variant='outline-light'
+                    onClick={() => this.setState({ isGameStarted: true })}
+                >
+                    Start Game
+                </Button>
+            )
+        } else {
+            return (
+                <>
+                    {this.gameGrid()}
+                    <Keyboard />
+                </>
+            )
+        }
+    }
 
-    updateCharList = (word, charStatus) => {
-        word = word.toLowerCase();
-        let updatedList = this.state.charList;
-        for (let i = 0; i < word.length; i++) {
-            if (charStatus[i] > updatedList[word.charCodeAt(i) - 'a'.charCodeAt(0)]) {
-                updatedList[word.charCodeAt(i) - 'a'.charCodeAt(0)] = charStatus[i];
-            };
-        };
-        this.setState({ charList: updatedList });
-    };
+    gameGrid = () => {
+        let grid = []
+
+        for (let row = 0; row < this.props.guesses; row++) {
+            let rowItem = []
+            for (let box = 0; box < this.props.wordLength; box++) {
+                rowItem.push(
+                    <div
+                        className='letter-box'
+                        key={'box' + box}
+                        style={{
+                            maxWidth: 90 / this.props.wordLength + 'vw',
+                            maxHeight: 90 / this.props.wordLength + 'vw'
+                        }}
+                    />
+                )
+            }
+            grid.push(
+                <div className='letter-row' key={'row' + row}>{rowItem}</div>
+            )
+        }
+        return grid
+    }
+
 
     render() {
+        console.log(this.gameGrid());
         return (
-            <div className="game">
-                <h1 className="App-title">NOT wordle</h1>
-                <GameGrid
-                    gameId={this.state.gameId}
-                    attempts={6}
-                    wordLength={5}
-                    onUpdateCharList={this.updateCharList}
-                    isWin={this.props.isWin}
-                    setIsWin={this.props.setIsWin}
-                />
-                <KeyboardDisplay
-                    charColor ={this.state.charList}    
-                />
+            <div className='game'>
+                {this.startGame()}
             </div>
         );
-    };
-};
+    }
+}
 
 export default Game;
