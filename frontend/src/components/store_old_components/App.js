@@ -41,16 +41,16 @@ class App extends Component {
                             gameStarted={this.state.gameStarted}
                             isWin={this.state.isWin}
                             setIsWin={this.setIsWin} />
-                 <RulesPop />
+                    {/* <RulesPop /> */}
                  <ChallengePop />
                  <Endgame
                     isWin={this.state.isWin}
                     userName={this.state.userName} />
-                    <UserStartPop
+                    {/* <UserStartPop
                         userName={this.state.userName}
                         setUserName={this.setUserName}
                         gameStartState={this.gameStartState}
-                    />
+                    /> */}
 
                 </div>
             </div>

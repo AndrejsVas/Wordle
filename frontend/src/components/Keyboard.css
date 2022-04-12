@@ -1,57 +1,23 @@
-.noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
-  }
-  @media screen and (max-width: 440px) {
-    .wrapper div {
-        display: none !important;
-    }
-}
-.wrapper {
-    display: grid;    
-    gap: 1vh;
-    grid-template-columns:  repeat(22, 2vh);
-    grid-template-rows: repeat(3, 4vh);
-    grid-row-gap: 1vh;
+.keyboard {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding-left: 5vh;
-    margin-top: 10%;
+    max-width: 100vw;
+    
+    flex-shrink: 2;
   }
-.wrapper div {
-    background-color: white;
-    border-radius: 5px;
-    color: black;
-    font-size: 3vh;   
+.keyboard div {
+    display: flex;
 }
-.q, .w, .e, .r, .t, .y, .u, .i, .o, .p{
-    grid-row: 1 ;
-    grid-column: span 2;
+.second-row {
+    margin: 0.5rem 0;
 }
-.wrapper .hold1 {
-    background-color: #282c34;
-    color: #282c34;
-    grid-row: 2;
+.keyboard-button {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem;
+    margin: 0 2px;
+    cursor: pointer;
+    text-transform: uppercase;
 }
-.a, .s, .d, .f, .g, .h, .j, .k, .l{
-    grid-row: 2;
-    grid-column: span 2;
-}
-.wrapper .hold2 {
-    background-color: #282c34;
-    color: #282c34;
-    grid-row: 3;
-    grid-column: span 3;
-}
-.z, .x, .c, .v, .b, .n, .m {
-    grid-row: 3;
-    grid-column: span 2;
-    justify-self: stretch;
-}
-
-
- 
