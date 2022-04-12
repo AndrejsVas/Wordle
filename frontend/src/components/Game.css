@@ -1,8 +1,4 @@
 .game {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-wrap:wrap;
-    }
+    border-radius: 3px;
+    background-color: gray;
+}
