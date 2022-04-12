@@ -29,7 +29,8 @@ class ChallengePop extends Component {
         <Challenge trigger ={this.state.count} setTrigger ={this.popupChange}>
             <h1>Set your word:</h1>
             <input id="userName-input" type="text" value={this.state.value} onChange={this.handleChange}  />
-            <input id="userName-submit" type="submit" value="Submit" onClick={async () =>{await this.props.setUserName(this.state.value); this.userChange();this.props.gameStartState();}} />
+            {/* No onClick event */}
+            <input id="userName-submit" type="submit" value="Submit"  />
 
         </Challenge>
           </div>
