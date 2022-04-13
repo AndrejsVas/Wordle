@@ -34,15 +34,15 @@ class InputWord extends Component {
         for (var i = 0; i < wordLength; i++) {
             items.push(
                 <InputBox
-                    isActive={isActive}
-                    charStatus={charStatus[i]}
-                    isWordDenied={isWordDenied}
-                    isReadOnly={isReadOnly || !isActive}
+                    // isActive={isActive}
+                    // charStatus={charStatus[i]}
+                    // isWordDenied={isWordDenied}
+                    // isReadOnly={isReadOnly || !isActive}
                     key={i}
                     name={'input' + i}
                     handleKeyDown={this.handleKeyDown}
                     handleChange={this.handleChange}
-                    handleFocus={this.handleFocus}
+                    // handleFocus={this.handleFocus}
                     inputRef={el => {
                         if (!el) return
                         this.inputElements[el.name] = el

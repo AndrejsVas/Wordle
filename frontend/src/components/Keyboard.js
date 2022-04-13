@@ -1,47 +1,52 @@
-import React from "react";
+import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 
 import './Keyboard.css'
 
-function Keyboard() {
-    return (
-        <>
-            <div className="keyboard">
-                <div class="first-row">
-                    <button class="keyboard-button">q</button>
-                    <button class="keyboard-button">w</button>
-                    <button class="keyboard-button">e</button>
-                    <button class="keyboard-button">r</button>
-                    <button class="keyboard-button">t</button>
-                    <button class="keyboard-button">y</button>
-                    <button class="keyboard-button">u</button>
-                    <button class="keyboard-button">i</button>
-                    <button class="keyboard-button">o</button>
-                    <button class="keyboard-button">p</button>
+class Keyboard extends Component {
+
+    render() {
+        const { gridBoxRefs } = this.props
+        return (
+            <>
+                <div className="keyboard font-monospace text-center" onClick={({ target: { innerHTML } }) => { console.log(innerHTML); }}>
+                    <div className="first-row">
+                        <Button variant="outline-light" className="keyboard-button">q</Button>
+                        <Button variant="outline-light" className="keyboard-button">w</Button>
+                        <Button variant="outline-light" className="keyboard-button">e</Button>
+                        <Button variant="outline-light" className="keyboard-button">r</Button>
+                        <Button variant="outline-light" className="keyboard-button">t</Button>
+                        <Button variant="outline-light" className="keyboard-button">y</Button>
+                        <Button variant="outline-light" className="keyboard-button">u</Button>
+                        <Button variant="outline-light" className="keyboard-button">i</Button>
+                        <Button variant="outline-light" className="keyboard-button">o</Button>
+                        <Button variant="outline-light" className="keyboard-button">p</Button>
+                    </div>
+                    <div className="second-row">
+                        <Button variant="outline-light" className="keyboard-button">a</Button>
+                        <Button variant="outline-light" className="keyboard-button">s</Button>
+                        <Button variant="outline-light" className="keyboard-button">d</Button>
+                        <Button variant="outline-light" className="keyboard-button">f</Button>
+                        <Button variant="outline-light" className="keyboard-button">g</Button>
+                        <Button variant="outline-light" className="keyboard-button">h</Button>
+                        <Button variant="outline-light" className="keyboard-button">j</Button>
+                        <Button variant="outline-light" className="keyboard-button">k</Button>
+                        <Button variant="outline-light" className="keyboard-button">l</Button>
+                    </div>
+                    <div className="third-row">
+                        <Button variant="outline-light" className="keyboard-button del">Del</Button>
+                        <Button variant="outline-light" className="keyboard-button">z</Button>
+                        <Button variant="outline-light" className="keyboard-button">x</Button>
+                        <Button variant="outline-light" className="keyboard-button">c</Button>
+                        <Button variant="outline-light" className="keyboard-button">v</Button>
+                        <Button variant="outline-light" className="keyboard-button">b</Button>
+                        <Button variant="outline-light" className="keyboard-button">n</Button>
+                        <Button variant="outline-light" className="keyboard-button">m</Button>
+                        <Button variant="outline-light" className="keyboard-button enter">Enter</Button>
+                    </div>
                 </div>
-                <div class="second-row">
-                    <button class="keyboard-button">a</button>
-                    <button class="keyboard-button">s</button>
-                    <button class="keyboard-button">d</button>
-                    <button class="keyboard-button">f</button>
-                    <button class="keyboard-button">g</button>
-                    <button class="keyboard-button">h</button>
-                    <button class="keyboard-button">j</button>
-                    <button class="keyboard-button">k</button>
-                    <button class="keyboard-button">l</button>
-                </div>
-                <div class="third-row">
-                    <button class="keyboard-button">Del</button>
-                    <button class="keyboard-button">z</button>
-                    <button class="keyboard-button">x</button>
-                    <button class="keyboard-button">c</button>
-                    <button class="keyboard-button">v</button>
-                    <button class="keyboard-button">b</button>
-                    <button class="keyboard-button">n</button>
-                    <button class="keyboard-button">m</button>
-                    <button class="keyboard-button">Enter</button>
-                </div>
-            </div>
-        </>
-    );
+            </>
+        );
+    }
 }
 export default Keyboard
