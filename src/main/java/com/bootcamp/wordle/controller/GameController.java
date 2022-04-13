@@ -31,6 +31,7 @@ public class GameController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Accepts the userName from the body")
                                      @RequestBody User user) {
         Game createdGame =  gameService.createGame(user);
+        gameService.saveGame(createdGame);
         return createdGame.getId();
     }
 

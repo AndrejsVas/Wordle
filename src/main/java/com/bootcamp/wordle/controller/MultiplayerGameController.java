@@ -26,16 +26,13 @@ public class MultiplayerGameController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Create a game session using the provided word and return an integer with the game id")
+    @Operation(summary = "Create a game session using the provided word and return an integer with the multiplayer game id")
     @ApiResponse(responseCode = "200", description = "Game session is created" )
-    @PostMapping(value = "/api/multiplayer/pickAWord",consumes = "application/json")
+    @PostMapping(value = "/api/multiplayerGame/pickAWord",consumes = "application/json")
     public int pickAWord(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Accepts the word picked by the user")
             @RequestBody MultiplayerGame multiplayerGame){
         return gameService.createMultiplayerGameFromPickedWord(multiplayerGame).getId();
-
-
-
     }
 
     @Operation(summary = "Called when the user clicks the challenge link. Assigns the user to the game. Returns game id")
@@ -51,12 +48,8 @@ public class MultiplayerGameController {
         //TODO: Improve username checks
         User user = userService.getUserByNameCreateIfNo(userName);
         Game game = gameService.createGame(user, multiplayerGame.getWordToGuess(), true);
-        //TODO : Check if game already exists
-        multiplayerGame.getGameList().put(game.getUser().getUserId(),game);
-        multiplayerGame.setNumOfPlayersPlayed(multiplayerGame.getNumOfPlayersPlayed()+1);
-        gameService.saveGame(game);
-        gameService.saveGame(multiplayerGame);
-        return gameId;
+        multiplayerGame = gameService.addGameToMultiplayerGame(multiplayerGame,game);
+        return multiplayerGame.getId();
 
     }
     @Operation(summary = "Get statistics for a multiplayer game")
@@ -80,4 +73,5 @@ public class MultiplayerGameController {
                 .status(HttpStatus.NOT_FOUND)
                 .body(exception.getMessage());
     }
+
 }
