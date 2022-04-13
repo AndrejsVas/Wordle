@@ -36,7 +36,8 @@ public class MultiplayerGameController {
         return gameService.createMultiplayerGameFromPickedWord(multiplayerGame).getId();
     }
 
-    @Operation(summary = "Called when the user clicks the challenge link. Assigns the user to the game. Returns game id")
+    @Operation(summary = "Called when the user clicks the challenge link. Assigns the user to the game. Returns " +
+            "game id (id is from Game table, NOT from multiplayer game table")
     @ApiResponse(responseCode = "200", description = "Game session is created" )
     @PostMapping(value = "/api/multiplayerGame/challengeLink" ,consumes = "application/json")
     public int challengeLink(
@@ -49,7 +50,7 @@ public class MultiplayerGameController {
         //TODO: Improve username checks
         User user = userService.getUserByNameCreateIfNo(userName);
         Game game = gameService.createGame(user, multiplayerGame.getWordToGuess(), true);
-        multiplayerGame = gameService.addGameToMultiplayerGame(multiplayerGame,game);
+        gameService.addGameToMultiplayerGame(multiplayerGame,game);
         //TODO: Better Response, prolly ResponseEntity
         return game.getId();
 
