@@ -40,12 +40,6 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
               usernameListGuessedAt6Attempt: data.usernameListGuessedAt6Attempt
             });this.setState({isMulti: true});console.log(data)});     
       }
-      componentDidMount = () => {
-        this.updateTimer = setInterval(() => this.loadStatsMultiplayer(),this.loadStats(), 10000);
-      }
-      componentWillUnmount = () => {
-        clearInterval(this.updateTimer);
-      }
   render() {  
 
     // if (this.state.isMulti && !this.state.isLoading){
