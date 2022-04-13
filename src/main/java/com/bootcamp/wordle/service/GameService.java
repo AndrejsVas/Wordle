@@ -52,6 +52,8 @@ public class GameService {
     }
 
     public MultiplayerGame createMultiplayerGameFromPickedWord(MultiplayerGame multiplayerGame) {
+        if(!wordService.getWordByName(multiplayerGame.getWordToGuess()))
+                throw new NoSuchElementException("Not a valid word");
         multiplayerGameRepository.save(multiplayerGame);
         return multiplayerGame;
     }
@@ -149,27 +151,27 @@ public class GameService {
             case 1:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt2Attempt());
                 usernameList.add(username);
-                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                multiplayerGame.setUsernameListGuessedAt2Attempt(usernameList);
                 break;
             case 2:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt3Attempt());
                 usernameList.add(username);
-                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                multiplayerGame.setUsernameListGuessedAt3Attempt(usernameList);
                 break;
             case 3:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt4Attempt());
                 usernameList.add(username);
-                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                multiplayerGame.setUsernameListGuessedAt4Attempt(usernameList);
                 break;
             case 4:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt5Attempt());
                 usernameList.add(username);
-                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                multiplayerGame.setUsernameListGuessedAt5Attempt(usernameList);
                 break;
             case 5:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt6Attempt());
                 usernameList.add(username);
-                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                multiplayerGame.setUsernameListGuessedAt6Attempt(usernameList);
                 break;
 
         }

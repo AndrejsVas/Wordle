@@ -28,6 +28,7 @@ public class MultiplayerGameController {
 
     @Operation(summary = "Create a game session using the provided word and return an integer with the multiplayer game id")
     @ApiResponse(responseCode = "200", description = "Game session is created" )
+    @ApiResponse(responseCode = "404", description = "User provided word is not a valid word" )
     @PostMapping(value = "/api/multiplayerGame/pickAWord",consumes = "application/json")
     public int pickAWord(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Accepts the word picked by the user")
@@ -49,7 +50,8 @@ public class MultiplayerGameController {
         User user = userService.getUserByNameCreateIfNo(userName);
         Game game = gameService.createGame(user, multiplayerGame.getWordToGuess(), true);
         multiplayerGame = gameService.addGameToMultiplayerGame(multiplayerGame,game);
-        return multiplayerGame.getId();
+        //TODO: Better Response, prolly ResponseEntity
+        return game.getId();
 
     }
     @Operation(summary = "Get statistics for a multiplayer game")
