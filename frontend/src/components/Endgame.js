@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
+import { Modal, Image, CloseButton, Button } from "react-bootstrap";
 
  class Endgame extends Component {
     constructor(props) {
         super(props);
         this.state = {
           isLoading: false,
-        // totalNumberOfGames: 0,
-        // currentWinstreak: 0,
-        // longestWinstreak: 0,
-        // numberOfWins: 0,
-        // winrate: 0,
-        // guessedWordsAtAttempt: [0,0,0,0,0,0],
-        // numOfPlayersPlayed: 0,
-        // wordToGuess: ""
+          isFinished: true,
+          isMulti: false,
+          isSingle: false,
+          multiplayerGameId: 1
         };
       }
       loadStats = () => {
@@ -30,10 +27,9 @@ import React, { Component } from 'react'
       }
       loadStatsMultiplayer = () => {
         // TODO Lift multiplayer ID
-        // Add per USER??
-        fetch('api/multiplayerGame/stats?multiplayerGameId='+this.props.multiplayerGameId)
+        fetch('api/multiplayerGame/stats?multiplayerGameId='+this.state.multiplayerGameId)
             .then(response => response.json())
-            .then(data =>this.setState({
+            .then(data =>{this.setState({
               wordToGuess: data.wordToGuess,
               numOfPlayersPlayed: data.numOfPlayersPlayed,
               usernameListGuessedAt1Attempt: data.usernameListGuessedAt1Attempt,
@@ -42,30 +38,25 @@ import React, { Component } from 'react'
               usernameListGuessedAt4Attempt: data.usernameListGuessedAt4Attempt,
               usernameListGuessedAt5Attempt: data.usernameListGuessedAt5Attempt,
               usernameListGuessedAt6Attempt: data.usernameListGuessedAt6Attempt
-            }));     
+            });this.setState({isMulti: true});console.log(data)});     
       }
-      isMulti = () => {
-           return this.props.isFinished && (this.props.multiplayerGameId != 0) ? true : false;         
-      }
-      isSingle = () => {
-            return this.props.isFinished && (this.props.multiplayerGameId == 0) ? true : false;
-      }
+
   render() {  
 
-    if (this.isMulti() && !this.state.isLoading){
-        this.setState({ isLoading: true});
-        this.loadStatsMultiplayer();
-      }
-    // TODO Lift  isFinished to show  
-    if (this.isSingle() && !this.state.isLoading){
-        this.setState({ isLoading: true});
-        this.loadStats();
-      }   
+    // if (this.state.isMulti && !this.state.isLoading){
+    //     this.setState({ isLoading: true});
+    //     this.loadStatsMultiplayer();
+    //   }
+
+    // else if (this.state.isSingle && !this.state.isLoading){
+    //     this.setState({ isLoading: true});
+    //     this.loadStats();
+    //   }   
       
     return (
         <>
-    
-        <Modal show={this.isSingle()}>
+        <Button onClick={this.loadStatsMultiplayer}>Click me</Button>
+        {this.state.isSingle ? <Modal show={this.state.isSingle}>
             <Modal.Header className="flex-row">
                 <Modal.Title>Endgame</Modal.Title>              
             </Modal.Header>
@@ -88,9 +79,9 @@ import React, { Component } from 'react'
                 </div>  
                 </div>
             </Modal.Body>
-        </Modal>
+        </Modal> : null}
 
-        <Modal show={this.isMulti()}>
+        {this.state.isMulti ? <Modal show={this.state.isMulti}>
             <Modal.Header className="flex-row">
                 <Modal.Title>Endgame</Modal.Title>              
             </Modal.Header>
@@ -109,7 +100,7 @@ import React, { Component } from 'react'
                 </div>  
                 </div>
             </Modal.Body>
-        </Modal>
+        </Modal> : null}
     </>
     )
   }
