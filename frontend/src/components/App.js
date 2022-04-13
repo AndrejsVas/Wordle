@@ -4,11 +4,13 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 
 import TopNav from './TopNav';
 import Game from './Game'
+import Endgame from './Endgame';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css';
 import { Navbar } from 'react-bootstrap';
+
 
 
 class App extends Component {
@@ -39,6 +41,7 @@ class App extends Component {
                 <Game
                     userName={userName} 
                 />
+                <Endgame />
             </div>
         );
     }
