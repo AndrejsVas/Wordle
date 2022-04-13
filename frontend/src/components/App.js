@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator'
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
 
 import TopNav from './TopNav';
 import Game from './Game'
@@ -8,7 +8,6 @@ import Game from './Game'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css';
-import { Navbar } from 'react-bootstrap';
 
 
 class App extends Component {
