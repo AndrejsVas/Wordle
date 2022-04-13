@@ -208,21 +208,22 @@ public class GameService {
         //GAME IS ALREADY FINISHED
         if (guessesLeft == 0) {
             //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
-            return new Answer(false, false, letterPlacement, guessesLeft - 1);
+            return new Answer(false, false, letterPlacement, guessesLeft - 1, true);
         }
         //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
         if (isWin || (!isWin && (guessesLeft - 1 == 0))) {
-            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1);
+            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1, true,
+                    foundGame.getWord());
             finishGame(answer, foundGame);
             return answer;
         } else if (!isWord) {
             extendGameSessionLife(foundGame);
-            return new Answer(isWord, isWin, letterPlacement, guessesLeft);
+            return new Answer(isWord, isWin, letterPlacement, guessesLeft,false);
         }
         extendGameSessionLife(foundGame);
         setGuessesLeft(foundGame.getId(), guessesLeft - 1);
         letterPlacement = wordService.compareWords(userGuess.getWord(), foundGame.getWord());
-        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft());
+        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft(), false);
 
 
     }
