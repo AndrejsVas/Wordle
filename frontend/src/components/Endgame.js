@@ -40,7 +40,12 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
               usernameListGuessedAt6Attempt: data.usernameListGuessedAt6Attempt
             });this.setState({isMulti: true});console.log(data)});     
       }
-
+      componentDidMount = () => {
+        this.updateTimer = setInterval(() => this.loadStatsMultiplayer(),this.loadStats(), 10000);
+      }
+      componentWillUnmount = () => {
+        clearInterval(this.updateTimer);
+      }
   render() {  
 
     // if (this.state.isMulti && !this.state.isLoading){
@@ -91,12 +96,12 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
                   <h1>Word: {this.state.wordToGuess}</h1>
                   Number of players: {this.state.numOfPlayersPlayed} <br/> <hr/>
                   Guess Distibution <br/>
-                  1: {this.state.usernameListGuessedAt1Attempt} <br/>
-                  2: {this.state.usernameListGuessedAt2Attempt} <br/>
-                  3: {this.state.usernameListGuessedAt3Attempt} <br/>
-                  4: {this.state.usernameListGuessedAt4Attempt} <br/>
-                  5: {this.state.usernameListGuessedAt5Attempt} <br/>
-                  6: {this.state.usernameListGuessedAt6Attempt}
+                  1: {this.state.usernameListGuessedAt1Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+                  2: {this.state.usernameListGuessedAt2Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+                  3: {this.state.usernameListGuessedAt3Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+                  4: {this.state.usernameListGuessedAt4Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+                  5: {this.state.usernameListGuessedAt5Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+                  6: {this.state.usernameListGuessedAt6Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])}
                 </div>  
                 </div>
             </Modal.Body>
