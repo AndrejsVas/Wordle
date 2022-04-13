@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import { Modal, Image, CloseButton, Button } from "react-bootstrap";
 
  class Endgame extends Component {
     constructor(props) {
         super(props);
         this.state = {
           isLoading: false,
-          isFinished: true,
-          isMulti: false,
-          isSingle: false,
-          multiplayerGameId: 1
+        // totalNumberOfGames: 0,
+        // currentWinstreak: 0,
+        // longestWinstreak: 0,
+        // numberOfWins: 0,
+        // winrate: 0,
+        // guessedWordsAtAttempt: [0,0,0,0,0,0],
+        // numOfPlayersPlayed: 0,
+        // wordToGuess: ""
         };
       }
       loadStats = () => {
@@ -27,9 +30,10 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
       }
       loadStatsMultiplayer = () => {
         // TODO Lift multiplayer ID
-        fetch('api/multiplayerGame/stats?multiplayerGameId='+this.state.multiplayerGameId)
+        // Add per USER??
+        fetch('api/multiplayerGame/stats?multiplayerGameId='+this.props.multiplayerGameId)
             .then(response => response.json())
-            .then(data =>{this.setState({
+            .then(data =>this.setState({
               wordToGuess: data.wordToGuess,
               numOfPlayersPlayed: data.numOfPlayersPlayed,
               usernameListGuessedAt1Attempt: data.usernameListGuessedAt1Attempt,
@@ -38,24 +42,30 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
               usernameListGuessedAt4Attempt: data.usernameListGuessedAt4Attempt,
               usernameListGuessedAt5Attempt: data.usernameListGuessedAt5Attempt,
               usernameListGuessedAt6Attempt: data.usernameListGuessedAt6Attempt
-            });this.setState({isMulti: true});console.log(data)});     
+            }));     
+      }
+      isMulti = () => {
+           return this.props.isFinished && (this.props.multiplayerGameId != 0) ? true : false;         
+      }
+      isSingle = () => {
+            return this.props.isFinished && (this.props.multiplayerGameId == 0) ? true : false;
       }
   render() {  
 
-    // if (this.state.isMulti && !this.state.isLoading){
-    //     this.setState({ isLoading: true});
-    //     this.loadStatsMultiplayer();
-    //   }
-
-    // else if (this.state.isSingle && !this.state.isLoading){
-    //     this.setState({ isLoading: true});
-    //     this.loadStats();
-    //   }   
+    if (this.isMulti() && !this.state.isLoading){
+        this.setState({ isLoading: true});
+        this.loadStatsMultiplayer();
+      }
+    // TODO Lift  isFinished to show  
+    if (this.isSingle() && !this.state.isLoading){
+        this.setState({ isLoading: true});
+        this.loadStats();
+      }   
       
     return (
         <>
-        <Button onClick={this.loadStatsMultiplayer}>Click me</Button>
-        {this.state.isSingle ? <Modal show={this.state.isSingle}>
+    
+        <Modal show={this.isSingle()}>
             <Modal.Header className="flex-row">
                 <Modal.Title>Endgame</Modal.Title>              
             </Modal.Header>
@@ -78,9 +88,9 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
                 </div>  
                 </div>
             </Modal.Body>
-        </Modal> : null}
+        </Modal>
 
-        {this.state.isMulti ? <Modal show={this.state.isMulti}>
+        <Modal show={this.isMulti()}>
             <Modal.Header className="flex-row">
                 <Modal.Title>Endgame</Modal.Title>              
             </Modal.Header>
@@ -90,16 +100,16 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
                   <h1>Word: {this.state.wordToGuess}</h1>
                   Number of players: {this.state.numOfPlayersPlayed} <br/> <hr/>
                   Guess Distibution <br/>
-                  1: {this.state.usernameListGuessedAt1Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-                  2: {this.state.usernameListGuessedAt2Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-                  3: {this.state.usernameListGuessedAt3Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-                  4: {this.state.usernameListGuessedAt4Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-                  5: {this.state.usernameListGuessedAt5Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-                  6: {this.state.usernameListGuessedAt6Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])}
+                  1: {this.state.usernameListGuessedAt1Attempt} <br/>
+                  2: {this.state.usernameListGuessedAt2Attempt} <br/>
+                  3: {this.state.usernameListGuessedAt3Attempt} <br/>
+                  4: {this.state.usernameListGuessedAt4Attempt} <br/>
+                  5: {this.state.usernameListGuessedAt5Attempt} <br/>
+                  6: {this.state.usernameListGuessedAt6Attempt}
                 </div>  
                 </div>
             </Modal.Body>
-        </Modal> : null}
+        </Modal>
     </>
     )
   }
