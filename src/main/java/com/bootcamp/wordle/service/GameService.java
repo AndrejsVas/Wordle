@@ -78,7 +78,7 @@ public class GameService {
         }
     }
 
-    @Scheduled(fixedRate = 60000, initialDelay = 1000)
+    //@Scheduled(fixedRate = 60000, initialDelay = 1000)
     public void checkSessionExpiration() {
         List<Game> allGames = new ArrayList<>();
         gameRepository.findAll().forEach(allGames::add);
@@ -113,7 +113,6 @@ public class GameService {
             if (newWinstreak > gamePlayer.getLongestWinstreak())
                 gamePlayer.setLongestWinstreak(newWinstreak);
             int wonAtGuessNumber = finishedGame.getGuessesLeft();
-            //TODO:6 is hardcoded try Attempt
             guessedWordsAtAttempt[6 - wonAtGuessNumber] = guessedWordsAtAttempt[6 - wonAtGuessNumber] + 1;
             gamePlayer.setNumberOfWins(gamePlayer.getNumberOfWins() + 1);
             gamePlayer.setGuessedWordsAtAttempt(guessedWordsAtAttempt);
@@ -126,21 +125,58 @@ public class GameService {
         int winrate = (wins * 100 / total);
         gamePlayer.setWinrate(winrate);
         userService.saveUser(gamePlayer);
-        if (finishedGame.isMultiplayer()){
-            recordMultiplayerStatistics(finishedGame);
+        if (finishedGame.isMultiplayer()) {
+            if (answer.isWin()) {
+                recordMultiplayerStatistics(finishedGame, gamePlayer.getUserName());
+            }
             deleteMultiplayerGame(finishedGame);
+        } else
+            deleteGame(finishedGame);
+
+    }
+
+    public void recordMultiplayerStatistics(Game finishedGame, String username) {
+        MultiplayerGame multiplayerGame = multiplayerGameRepository.findByGameList_id(finishedGame.getId());
+        List<String> usernameList = new ArrayList<>();
+        int wonAtGuessNumber = 6 - finishedGame.getGuessesLeft();
+//            TODO: Check if username is already in list
+        switch (wonAtGuessNumber) {
+            case 0:
+                usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt1Attempt());
+                usernameList.add(username);
+                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                break;
+            case 1:
+                usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt2Attempt());
+                usernameList.add(username);
+                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                break;
+            case 2:
+                usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt3Attempt());
+                usernameList.add(username);
+                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                break;
+            case 3:
+                usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt4Attempt());
+                usernameList.add(username);
+                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                break;
+            case 4:
+                usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt5Attempt());
+                usernameList.add(username);
+                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                break;
+            case 5:
+                usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt6Attempt());
+                usernameList.add(username);
+                multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
+                break;
+
         }
-        else
-        deleteGame(finishedGame);
-
+        usernameList.remove("");
+        multiplayerGameRepository.save(multiplayerGame);
     }
 
-    public void recordMultiplayerStatistics(Game finishedGame) {
-//        MultiplayerGame multiplayerGame = multiplayerGameRepository.findBy(finishedGame);
-//        MultiplayerGame multiplayerGame = multiplayerGameRepository.findByGameList_id(finishedGame);
-        int test = 213;
-
-    }
 
     public Answer makeAGuess(Guess userGuess) {
         Game foundGame = getGameById(userGuess.getId());
@@ -178,14 +214,13 @@ public class GameService {
         gameRepository.deleteById(gameToDelete.getId());
 
     }
-    public void deleteMultiplayerGame(Game gameToDelete){
 
+    public void deleteMultiplayerGame(Game gameToDelete) {
         MultiplayerGame multiplayerGame = multiplayerGameRepository.findByGameList_id(gameToDelete.getId());
         multiplayerGame.getGameList().remove(gameToDelete.getUser().getUserId());
         deleteGame(gameToDelete);
         multiplayerGameRepository.save(multiplayerGame);
 
-        int test = 123;
     }
 
     public void saveGame(Game gameToSave) {
