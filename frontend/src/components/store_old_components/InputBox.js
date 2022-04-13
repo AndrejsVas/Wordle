@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+// import React, { Component } from 'react'
 
-import './InputBox.css'
+// import './InputBox.css'
 
 // const Input = styled.input`
 //     justify-content: space-between;
@@ -23,44 +23,45 @@ import './InputBox.css'
 function InputBox({
     handleKeyDown,
     handleChange,
-    handleFocus,
+    // handleFocus,
     name,
     inputRef,
-    isActive,
-    charStatus,
-    isReadOnly,
-    isWordDenied }) {
-    var className = 'input-box';
+    // isActive,
+    // charStatus,
+    // isReadOnly,
+    // isWordDenied 
+}) {
+    // var className = 'input-box';
 
-    if (isActive) className += ' is-active';
-    if (isWordDenied) className += ' word-denied';
-    switch (charStatus) {
-        case 3:
-            className += ' in-place';
-            break;
-        case 2:
-            className += ' in-word';
-            break;
-        case 1:
-            className += ' not-in-word';
-            break;
-        default:
-            break;
-    }
+    // if (isActive) className += ' is-active';
+    // if (isWordDenied) className += ' word-denied';
+    // switch (charStatus) {
+    //     case 3:
+    //         className += ' in-place';
+    //         break;
+    //     case 2:
+    //         className += ' in-word';
+    //         break;
+    //     case 1:
+    //         className += ' not-in-word';
+    //         break;
+    //     default:
+    //         break;
+    // }
 
     return (
         <input
-            readOnly={isReadOnly}
-            className={className}
+            // readOnly={isReadOnly}
+            // className={className}
             onKeyDown={handleKeyDown}
             onChange={handleChange}
-            onFocus={handleFocus}
-            type='text'
-            maxLength='1'
+            // onFocus={handleFocus}
+            // type='text'
+            // maxLength='1'
             name={name}
             ref={inputRef}
         />
     )
 }
 
-export default InputBox
+// export default InputBox

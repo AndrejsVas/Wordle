@@ -8,6 +8,7 @@ import Game from './Game'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css';
+import { Navbar } from 'react-bootstrap';
 
 
 class App extends Component {
@@ -36,8 +37,7 @@ class App extends Component {
                     genUserName={this.genUserName}
                 />
                 <Game
-                    guesses={6}
-                    wordLength={5}
+                    userName={userName} 
                 />
             </div>
         );
