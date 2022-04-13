@@ -4,21 +4,29 @@ import GameGrid from "./GameGrid";
 import Keyboard from "./Keyboard";
 
 class MainGame extends Component {
+    state = {
+        gridBoxRefs: []
+    }
+
+    setGridBoxRefs = (gridBoxRefs) => {
+        if (gridBoxRefs !== this.state.gridBoxRefs) {
+            this.setState({ gridBoxRefs: gridBoxRefs })
+        }
+    }
 
     render() {
 
-        const { gameId, setGridBoxRefs, setKeyboardButtonRefs, handleOnClick, letters, guesses } = this.props;
+        const { letters, guesses } = this.props;
 
         return (
             <>
                 <GameGrid
-                    setGridBoxRefs={setGridBoxRefs}
+                    setGridBoxRefs={this.setGridBoxRefs}
                     letters={letters}
                     guesses={guesses}
                 />
                 <Keyboard
-                    setKeyboardButtonRefs={setKeyboardButtonRefs}
-                    handleOnClick={handleOnClick}
+                    gridBoxRefs={this.gridBoxRefs}
                 />
             </>
         )
