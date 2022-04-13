@@ -21,6 +21,7 @@
     text-transform: uppercase;
     vertical-align: middle;
     }
+    
     .keyboard-button.enter {
         width: 4rem;
         max-width: calc((90vw - 10 * 6px) / 10 * 2);

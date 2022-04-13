@@ -6,20 +6,22 @@ class GameGrid extends Component {
 
     // ({ setGridBoxRefs, letters, guesses })
 
+    gridBoxRefs = []
+
     shouldComponentUpdate(prevState) {
         return true
     }
-
-    gridBoxRefs = [[], [], [], [], [], []]
 
     renderGrid = () => {
 
         const { setGridBoxRefs, letters, guesses } = this.props
 
         let grid = []
+        let gridBoxRefs = []
 
         for (let row = 0; row < guesses; row++) {
             let rowItem = []
+            let rowRefs = []
             for (let box = 0; box < letters; box++) {
                 rowItem.push(
                     <div
@@ -27,7 +29,7 @@ class GameGrid extends Component {
                         key={box}
                         ref={el => {
                             if (!el) return
-                            this.gridBoxRefs[row][box] = el
+                            rowRefs[box] = el
                         }}
                     />
                 )
@@ -35,8 +37,9 @@ class GameGrid extends Component {
             grid.push(
                 <div className='letter-row' key={row}>{rowItem}</div>
             )
+            gridBoxRefs.push(rowRefs)
         }
-        setGridBoxRefs(this.gridBoxRefs)
+        this.gridBoxRefs = gridBoxRefs
 
         return (
             <div className='game-grid'>
@@ -53,6 +56,7 @@ class GameGrid extends Component {
     }
 
     render() {
+        console.log(this.gridBoxRefs);
         return <>{this.renderGrid()}</>
     }
 }
