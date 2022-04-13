@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -30,7 +31,6 @@ public class GameService {
         game.setUser(returnedUser);
         game.setWord(wordService.findRandomWord());
         game.setMultiplayer(false);
-        gameRepository.save(game);
         return game;
 
     }
@@ -42,7 +42,6 @@ public class GameService {
         game.setUser(user);
         game.setMultiplayer(isMultiplayer);
         game.setWord(wordToGuess);
-        gameRepository.save(game);
         return game;
     }
 
@@ -177,6 +176,17 @@ public class GameService {
         multiplayerGameRepository.save(multiplayerGame);
     }
 
+    public MultiplayerGame addGameToMultiplayerGame(MultiplayerGame multiplayerGame, Game gameToBeAdded){
+        Map<Integer, Game> ListOfGameSessionsForMultiplayerGame = multiplayerGame.getGameList();
+        if(ListOfGameSessionsForMultiplayerGame.containsKey(gameToBeAdded.getUser().getUserId())){
+            return multiplayerGame;
+        }
+        multiplayerGame.getGameList().put(gameToBeAdded.getUser().getUserId(),gameToBeAdded);
+        multiplayerGame.setNumOfPlayersPlayed(multiplayerGame.getNumOfPlayersPlayed()+1);
+        saveGame(gameToBeAdded);
+        saveGame(multiplayerGame);
+        return multiplayerGame;
+    }
 
     public Answer makeAGuess(Guess userGuess) {
         Game foundGame = getGameById(userGuess.getId());
@@ -225,11 +235,9 @@ public class GameService {
 
     public void saveGame(Game gameToSave) {
         gameRepository.save(gameToSave);
-
     }
 
     public void saveGame(MultiplayerGame gameToSave) {
         multiplayerGameRepository.save(gameToSave);
-
     }
 }
