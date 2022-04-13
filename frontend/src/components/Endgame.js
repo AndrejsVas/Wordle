@@ -41,7 +41,8 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
             });this.setState({isMulti: true});console.log(data)});     
       }
       componentDidMount = () => {
-        this.updateTimer = setInterval(() => this.loadStatsMultiplayer(),this.loadStats(), 10000);
+       if(this.state.isMulti) {this.updateTimer = setInterval(() => this.loadStatsMultiplayer(), 10000);}
+       if(this.state.isSingle){this.updateTimer = setInterval(() => this.loadStats(), 10000);}
       }
       componentWillUnmount = () => {
         clearInterval(this.updateTimer);
