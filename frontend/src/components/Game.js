@@ -23,7 +23,6 @@ class Game extends Component {
     }
 
     handleKeyUp = ({ key }) => {
-        console.log('keyUp');
         if (this.state.guessesLeft <= 0) {
             return
         }
@@ -34,7 +33,7 @@ class Game extends Component {
             return
         }
 
-        if (pressedKey === "Enter") {
+        if (pressedKey === "Enter" && this.guessesRemaining > 0) {
             this.checkGuess()
             return
         }
@@ -74,7 +73,7 @@ class Game extends Component {
         let guessString = this.currentGuess.join('');
 
         if (guessString.length !== this.NUMBER_OF_LETTERS) {
-            alert("Not enough letters!") //TODO make animation
+             //TODO make animation
             this.isConnecting = false;
             return
         }
@@ -96,11 +95,12 @@ class Game extends Component {
                 isWord = data.word
                 isWin = data.win
                 charStatus = isWin ? Array(this.NUMBER_OF_LETTERS).fill(3) : data.charStatus
+                console.log(data);
             })
 
 
         if (!isWord) {
-            alert("Word not in list!") //TODO make animation
+            console.log("Word not in list!") //TODO make animation
             this.isConnecting = false;
             return
         }
@@ -108,7 +108,7 @@ class Game extends Component {
         this.coloring(charStatus)
 
         if (isWin) {
-            alert("You guessed right! Game over!")  //TODO add popup
+            console.log("You guessed right! Game over!")  //TODO add popup
             this.guessesRemaining = 0
             this.isConnecting = false;
             return
@@ -119,7 +119,7 @@ class Game extends Component {
         this.nextLetter = 0;
 
         if (this.guessesRemaining === 0) {
-            alert("You've run out of guesses! Game over!")  //TODO add popup
+            console.log("You've run out of guesses! Game over!")  //TODO add popup
             // alert(`The right word was: "${rightGuessString}"`)  //TODO backend task => give me right word after last guess + also give me charStatus
         }
         this.isConnecting = false;
@@ -128,23 +128,28 @@ class Game extends Component {
 
     coloring = (charStatus) => {
         for (let i = 0; i < this.NUMBER_OF_LETTERS; i++) {
-            let coloringClassName = charStatus[i] === 0 ? 'no-data' : charStatus[i] === 1 ? 'not-in-word' : charStatus[i] === 2 ? 'in-word' : charStatus[i] === 3 ? 'in-place' : 'error'
-            this.gridBoxRefs[6 - this.guessesRemaining][i].classList.add(coloringClassName)
+            let color = charStatus[i] === 1 ? 'rgba(121, 121, 121, 0.5)' : charStatus[i] === 2 ? 'rgba(251, 255, 0, 0.5)' : 'rgba(0, 255, 55, 0.5)'
+            this.gridBoxRefs[6 - this.guessesRemaining][i].style.backgroundColor = color
 
-            let ar = this.keyboardButtonRefs[this.currentGuess[i]].classList
-            console.log(ar);
+
+
             let key = this.keyboardButtonRefs[this.currentGuess[i]]
+            let oldColor = key.style.backgroundColor
+            if (oldColor === 'rgba(0, 255, 55, 0.5)') {
+                continue
+            } 
 
-            if (!key.classList.includes('in-place') && coloringClassName === 'in-place') {
-                key.classList.add(coloringClassName)
+            if (oldColor === 'rgba(251, 255, 0, 0.5)' && color !== 'rgba(0, 255, 55, 0.5)') {
+                continue
             }
-            else if (!key.classList.includes('in-place') && !key.classList.includes('in-word') && coloringClassName === 'in-word') {
-                key.classList.add(coloringClassName)
-            }
-            else if (!key.classList.includes('in-place') && !key.classList.includes('in-word') && !key.classList.includes('not-in-word') && coloringClassName === 'not-in-word') {
-                key.classList.add(coloringClassName)
-            }
+
+            key.style.backgroundColor = color
         }
+    }
+
+    checkClassNameExistence = (ref, className) => {
+        if (ref.classList.findIndex(name => { return name === className; }) === -1) return false
+        return true
     }
 
     render() {
