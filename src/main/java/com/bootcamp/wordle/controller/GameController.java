@@ -9,7 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -46,6 +49,22 @@ public class GameController {
         Answer answerForGuess = gameService.makeAGuess(guess);
         return new ResponseEntity<Answer>(answerForGuess,HttpStatus.OK);
     }
+
+    @Scheduled(fixedRate = 60000, initialDelay = 1000)
+    public void checkSessionExpiration() {
+        gameService.cleanExpiredGames();
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleNoSuchElementFoundException(
+            NoSuchElementException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(exception.getMessage());
+    }
+
 
 
 
