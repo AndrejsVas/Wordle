@@ -1,0 +1,36 @@
+.game-grid {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter-box {
+    flex: 1 1 auto;
+    border: 0.1rem solid gray;
+    border-radius: 3px;
+    margin: 0.1rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    width: 100vw;
+    height: 100vh;
+    max-width: var(--max-box-side);
+    max-height: var(--max-box-side);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.filled-box {
+    border: 0.1rem solid black;
+}
+
+.letter-row {
+    display: flex;
+}
+
+.game-grid * {
+    --max-box-side: min(3rem, calc(calc(90vw - (0.3rem*var(--word-length)))/var(--word-length)), calc(((100vh - 56px)*0.5/6)) - 0.3rem);
+}
