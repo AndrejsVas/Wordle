@@ -102,7 +102,6 @@ public class GameService {
         gameRepository.save(currentGame);
     }
 
-    //TODO Maybe some joins here
     //TODO: Potential refactoring
     public void finishGame(Answer answer, Game finishedGame) {
         User gamePlayer = finishedGame.getUser();

@@ -63,12 +63,6 @@ public class MultiplayerGameController {
         return multiplayerGame;
     }
 
-
-    @Scheduled(fixedRate = 60000, initialDelay = 1000)
-    public void checkSessionExpiration() {
-        gameService.cleanExpiredGames();
-    }
-
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<String> handleNoSuchElementFoundException(
