@@ -145,37 +145,31 @@ public class GameService {
         switch (wonAtGuessNumber) {
             case 0:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt1Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
                 break;
             case 1:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt2Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt2Attempt(usernameList);
                 break;
             case 2:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt3Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt3Attempt(usernameList);
                 break;
             case 3:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt4Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt4Attempt(usernameList);
                 break;
             case 4:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt5Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt5Attempt(usernameList);
                 break;
             case 5:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt6Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt6Attempt(usernameList);
                 break;
