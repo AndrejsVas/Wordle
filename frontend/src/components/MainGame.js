@@ -7,7 +7,7 @@ class MainGame extends Component {
 
     render() {
 
-        const { setGridBoxRefs, setKeyboardButtonRefs, letters, guesses } = this.props;
+        const { gameId, setGridBoxRefs, setKeyboardButtonRefs, handleOnClick, letters, guesses } = this.props;
 
         return (
             <>
@@ -18,6 +18,7 @@ class MainGame extends Component {
                 />
                 <Keyboard
                     setKeyboardButtonRefs={setKeyboardButtonRefs}
+                    handleOnClick={handleOnClick}
                 />
             </>
         )
