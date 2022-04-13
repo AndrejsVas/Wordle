@@ -9,7 +9,6 @@ import Endgame from './Endgame';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css';
-import { Navbar } from 'react-bootstrap';
 
 
 
