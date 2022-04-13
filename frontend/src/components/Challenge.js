@@ -1,21 +1,32 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 
 import { Modal, Image, CloseButton } from "react-bootstrap";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-function Challenge() {
-    const [show, setShow] = useState(false);
-    const [showLink, setShowLink] = useState(false);
-
-    // const handleShowLink = () => setShowLink(true);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-  return (
+class Challenge extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          show: false, 
+          value: '',
+          copied: false     
+        };
+      }
+      handleShow = () => {
+        this.setState({show: true});
+      }
+      handleClose = () => {
+        this.setState({show: false});
+      }
+    
+    render() {
+    return (
     <>
-    <div onClick={handleShow}>Challenge link</div>
-    <Modal show={show} onHide={handleClose}>
+    <div onClick={this.handleShow}>Challenge link</div>
+    <Modal show={this.state.show} onHide={this.handleClose}>
                 <Modal.Header className="flex-row">
                     <Modal.Title>Challenge</Modal.Title>
-                    <CloseButton variant="white" onClick={handleClose} />
+                    <CloseButton variant="white" onClick={this.handleClose} />
                 </Modal.Header>
                 <Modal.Body >
                     <div>
@@ -23,14 +34,24 @@ function Challenge() {
             <input id="userName-input" type="text" value="word"/>
             {/* No onClick event */}
             <input id="userName-submit" type="submit" value="Submit"  />
-            <div className='link' show={showLink}>
-                <h1>{window.location.href}</h1>
-            </div>
+            <div>
+        <input value={this.state.value}
+          onChange={({target: {value}}) => this.setState({value, copied: false})} />
+
+        <CopyToClipboard text={this.state.value}
+          onCopy={() => this.setState({copied: true})}>
+          <span>Click to Copy</span>
+        </CopyToClipboard>
+
+
+        {this.state.copied ? <span style={{color: 'red'}}>Copied.</span> : null}
+      </div>
                     </div>
                 </Modal.Body>
             </Modal>
             
     </>
   )
+}
 }
 export default Challenge
