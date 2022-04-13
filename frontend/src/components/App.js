@@ -4,10 +4,12 @@ import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generato
 
 import TopNav from './TopNav';
 import Game from './Game'
+import Endgame from './Endgame';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css';
+
 
 
 class App extends Component {
@@ -38,6 +40,7 @@ class App extends Component {
                 <Game
                     userName={userName} 
                 />
+                <Endgame />
             </div>
         );
     }

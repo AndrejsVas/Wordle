@@ -145,37 +145,31 @@ public class GameService {
         switch (wonAtGuessNumber) {
             case 0:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt1Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt1Attempt(usernameList);
                 break;
             case 1:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt2Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt2Attempt(usernameList);
                 break;
             case 2:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt3Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt3Attempt(usernameList);
                 break;
             case 3:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt4Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt4Attempt(usernameList);
                 break;
             case 4:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt5Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt5Attempt(usernameList);
                 break;
             case 5:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt6Attempt());
-                if(!usernameList.contains(username))
                 usernameList.add(username);
                 multiplayerGame.setUsernameListGuessedAt6Attempt(usernameList);
                 break;
@@ -208,21 +202,22 @@ public class GameService {
         //GAME IS ALREADY FINISHED
         if (guessesLeft == 0) {
             //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
-            return new Answer(false, false, letterPlacement, guessesLeft - 1);
+            return new Answer(false, false, letterPlacement, guessesLeft - 1, true);
         }
         //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
         if (isWin || (!isWin && (guessesLeft - 1 == 0))) {
-            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1);
+            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1, true,
+                    foundGame.getWord());
             finishGame(answer, foundGame);
             return answer;
         } else if (!isWord) {
             extendGameSessionLife(foundGame);
-            return new Answer(isWord, isWin, letterPlacement, guessesLeft);
+            return new Answer(isWord, isWin, letterPlacement, guessesLeft,false);
         }
         extendGameSessionLife(foundGame);
         setGuessesLeft(foundGame.getId(), guessesLeft - 1);
         letterPlacement = wordService.compareWords(userGuess.getWord(), foundGame.getWord());
-        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft());
+        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft(), false);
 
 
     }
