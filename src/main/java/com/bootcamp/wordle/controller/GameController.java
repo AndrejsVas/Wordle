@@ -5,6 +5,7 @@ import com.bootcamp.wordle.service.GameService;
 import com.bootcamp.wordle.service.UserService;
 import com.bootcamp.wordle.service.WordService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,17 @@ public class GameController {
         return gameId;
 
     }
+    @Operation(summary = "Get statistics for a multiplayer game")
+    @ApiResponse(responseCode = "200", description = "Game statistics fetched" )
+    @GetMapping(value="/api/multiplayerGame/stats")
+    public MultiplayerGame getMultiplayerStats(
+            @Parameter(description = "The id of the requested multiplayer game")
+            @RequestParam int multiplayerGameId ){
+        MultiplayerGame multiplayerGame =  gameService.getMultiplayerGameById(multiplayerGameId);
+        multiplayerGame.setGameList(null);
+        return multiplayerGame;
+    }
+
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
