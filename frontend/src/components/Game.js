@@ -13,6 +13,8 @@ class Game extends Component {
     currentGuess = []
     nextLetter = 0
 
+    isConnecting = false;
+
     gridBoxRefs = []
     keyboardButtonRefs = []
 
@@ -20,12 +22,13 @@ class Game extends Component {
         isGameStarted: false
     }
 
-    handleKeyUp = (event) => {
+    handleKeyUp = ({ key }) => {
+        console.log('keyUp');
         if (this.state.guessesLeft <= 0) {
             return
         }
 
-        let pressedKey = String(event.key)
+        let pressedKey = String(key)
         if (pressedKey === "Backspace" && this.nextLetter !== 0) {
             this.deleteLetter()
             return
@@ -65,11 +68,14 @@ class Game extends Component {
         this.nextLetter -= 1
     }
 
-    checkGuess = () => {
+    checkGuess = async () => {
+        if (this.isConnecting) return
+        this.isConnecting = true;
         let guessString = this.currentGuess.join('');
 
         if (guessString.length !== this.NUMBER_OF_LETTERS) {
             alert("Not enough letters!") //TODO make animation
+            this.isConnecting = false;
             return
         }
 
@@ -77,13 +83,13 @@ class Game extends Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: this.props.gameId, word: guessString })
+            body: JSON.stringify({ id: this.state.gameId, word: guessString })
         };
         let numberOfTries
         let isWord
         let isWin
         let charStatus
-        fetch('/api/guess', requestOptions)
+        await fetch('/api/guess', requestOptions)
             .then(response => response.json())
             .then(data => {
                 numberOfTries = data.numberOfTries
@@ -95,6 +101,7 @@ class Game extends Component {
 
         if (!isWord) {
             alert("Word not in list!") //TODO make animation
+            this.isConnecting = false;
             return
         }
 
@@ -103,6 +110,7 @@ class Game extends Component {
         if (isWin) {
             alert("You guessed right! Game over!")  //TODO add popup
             this.guessesRemaining = 0
+            this.isConnecting = false;
             return
         }
 
@@ -114,6 +122,7 @@ class Game extends Component {
             alert("You've run out of guesses! Game over!")  //TODO add popup
             // alert(`The right word was: "${rightGuessString}"`)  //TODO backend task => give me right word after last guess + also give me charStatus
         }
+        this.isConnecting = false;
 
     }
 
@@ -122,6 +131,8 @@ class Game extends Component {
             let coloringClassName = charStatus[i] === 0 ? 'no-data' : charStatus[i] === 1 ? 'not-in-word' : charStatus[i] === 2 ? 'in-word' : charStatus[i] === 3 ? 'in-place' : 'error'
             this.gridBoxRefs[6 - this.guessesRemaining][i].classList.add(coloringClassName)
 
+            let ar = this.keyboardButtonRefs[this.currentGuess[i]].classList
+            console.log(ar);
             let key = this.keyboardButtonRefs[this.currentGuess[i]]
 
             if (!key.classList.includes('in-place') && coloringClassName === 'in-place') {
@@ -142,10 +153,14 @@ class Game extends Component {
         return (
             <div className='game' onKeyUp={this.handleKeyUp}>
                 <StartButton
+                    userName={this.props.userName}
+                    linkId={this.props.linkId}
+                    setGameId={gameId => this.setState({ gameId: gameId })}
                     isGameStarted={isGameStarted}
                     setIsGameStarted={value => this.setState({ isGameStarted: value })}
                     setGridBoxRefs={gridBoxRefs => this.gridBoxRefs = gridBoxRefs}
                     setKeyboardButtonRefs={(name, ref) => this.keyboardButtonRefs[name] = ref}
+                    handleOnClick={key => { this.handleKeyUp({ key }) }}
                     letters={this.NUMBER_OF_LETTERS}
                     guesses={this.NUMBER_OF_GUESSES}
                 />

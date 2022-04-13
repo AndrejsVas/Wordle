@@ -10,17 +10,17 @@ class Keyboard extends Component {
         this.props.setKeyboardButtonRefs(name, el)
     }
 
-    handleOnClick = ({ target: { textContent } }) => {
-        // if (!target.classList.contains("keyboard-button")) {
-        //     return
-        // }
-        // let key = target.textContent
+    handleOnClick = ({ target }) => {
+        if (!target.classList.contains("keyboard-button")) {
+            return
+        }
+        let key = target.textContent
 
-        // if (key === "Del") {
-        //     key = "Backspace"
-        // }
+        if (key === "Del") {
+            key = "Backspace"
+        }
 
-        // document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
+        this.props.handleOnClick(key)
     }
 
     render() {
