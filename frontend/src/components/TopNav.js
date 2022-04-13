@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 
+import Challenge from './Challenge';
 import Rules from './Rules';
 import UserName from './UserName';
 
@@ -16,7 +17,7 @@ function TopNav({ userName, setUserName, genUserName }) {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                             <Nav.Link href='/' >Start new game</Nav.Link>
-                        <Nav.Link >Create challenge</Nav.Link>
+                        <Nav.Link ><Challenge /></Nav.Link>
                         <Nav.Link ><Rules /></Nav.Link>
                     </Nav>
                     <Nav>
