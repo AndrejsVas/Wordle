@@ -21,8 +21,28 @@
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-}
-
+    user-select: none;
+    /* supported by Chrome and Opera */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    }
+    .letter-box.not-in-word {
+        background-color: rgba(138, 138, 138, 0.5);
+    }
+    
+    .letter-box.in-word {
+        background-color: rgba(251, 255, 0, 0.5);
+    }
+    
+    .letter-box.not-in-place {
+        background-color: rgba(0, 255, 55, 0.5);
+    }
 .filled-box {
     border: 0.1rem solid white;
 }

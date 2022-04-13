@@ -21,7 +21,18 @@
     text-transform: uppercase;
     vertical-align: middle;
     }
-    
+        .keyboard .keyboard-button.not-in-word {
+            background-color: rgba(138, 138, 138, 0.5);
+        }
+        
+        .keyboard .keyboard-button.in-word {
+            background-color: rgba(251, 255, 0, 0.5);
+        }
+        
+        .keyboard .keyboard-button.not-in-place {
+            background-color: rgba(0, 255, 55, 0.5);
+        }
+
     .keyboard-button.enter {
         width: 4rem;
         max-width: calc((90vw - 10 * 6px) / 10 * 2);
