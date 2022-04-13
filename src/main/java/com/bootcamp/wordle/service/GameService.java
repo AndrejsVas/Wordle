@@ -77,12 +77,14 @@ public class GameService {
         }
     }
 
-    //@Scheduled(fixedRate = 60000, initialDelay = 1000)
-    public void checkSessionExpiration() {
+
+    public void cleanExpiredGames() {
+        //TODO:Add suport for deleteting old multiplayer games
         List<Game> allGames = new ArrayList<>();
         gameRepository.findAll().forEach(allGames::add);
         for (Game currentGame : allGames) {
             if (isGameExpired(currentGame)) {
+                if(!currentGame.isMultiplayer())
                 deleteGame(currentGame);
             }
         }

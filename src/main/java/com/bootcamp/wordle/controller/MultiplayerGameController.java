@@ -6,13 +6,13 @@ import com.bootcamp.wordle.model.MultiplayerGame;
 import com.bootcamp.wordle.model.User;
 import com.bootcamp.wordle.service.GameService;
 import com.bootcamp.wordle.service.UserService;
-import com.bootcamp.wordle.service.WordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -63,6 +63,11 @@ public class MultiplayerGameController {
         return multiplayerGame;
     }
 
+
+    @Scheduled(fixedRate = 60000, initialDelay = 1000)
+    public void checkSessionExpiration() {
+        gameService.cleanExpiredGames();
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
