@@ -154,9 +154,8 @@ class Game extends Component {
 
     render() {
         const { isGameStarted } = this.state;
-        window.addEventListener('keyup', this.handleKeyUp)
         return (
-            <div className='game' onKeyUp={this.handleKeyUp}>
+            <div className='game'>
                 <StartButton
                     userName={this.props.userName}
                     linkId={this.props.linkId}
@@ -166,6 +165,7 @@ class Game extends Component {
                     setGridBoxRefs={gridBoxRefs => this.gridBoxRefs = gridBoxRefs}
                     setKeyboardButtonRefs={(name, ref) => this.keyboardButtonRefs[name] = ref}
                     handleOnClick={key => { this.handleKeyUp({ key }) }}
+                    handleKeyUp={this.handleKeyUp}
                     letters={this.NUMBER_OF_LETTERS}
                     guesses={this.NUMBER_OF_GUESSES}
                 />

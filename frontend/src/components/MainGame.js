@@ -7,7 +7,9 @@ class MainGame extends Component {
 
     render() {
 
-        const { gameId, setGridBoxRefs, setKeyboardButtonRefs, handleOnClick, letters, guesses } = this.props;
+        const { gameId, handleKeyUp, setGridBoxRefs, setKeyboardButtonRefs, handleOnClick, letters, guesses } = this.props;
+
+        window.addEventListener('keyup', handleKeyUp)
 
         return (
             <>

@@ -41,13 +41,13 @@ class StartButton extends Component {
         };
         await fetch('/api/multiplayerGame/challengeLink', requestOptions)
             .then(response => response.json())
-            .then(Id => this.setState({
-                gameId: Id
-            }))
+            .then(id => {
+                this.setState({ gameId: id })
+            })
     }
 
     render() {
-        const { userName, isGameStarted, setGridBoxRefs, setKeyboardButtonRefs, handleOnClick, letters, guesses } = this.props
+        const { userName, isGameStarted, setGridBoxRefs, setKeyboardButtonRefs, handleOnClick, handleKeyUp, letters, guesses } = this.props
 
         if (isGameStarted) {
             return (
@@ -57,6 +57,7 @@ class StartButton extends Component {
                     setGridBoxRefs={setGridBoxRefs}
                     setKeyboardButtonRefs={setKeyboardButtonRefs}
                     handleOnClick={handleOnClick}
+                    handleKeyUp={handleKeyUp}
                     letters={letters}
                     guesses={guesses}
                 />
