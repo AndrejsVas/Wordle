@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import StartButton from './StartButton';
 
 import './Game.css'
+import Endgame from './Endgame';
 
 
 class Game extends Component {
@@ -20,6 +21,9 @@ class Game extends Component {
 
     state = {
         isGameStarted: false,
+        showPop: false,
+        isWin: false,
+        correctWord: '',
     }
 
     componentDidMount() {
@@ -91,19 +95,17 @@ class Game extends Component {
         };
         let numberOfTries
         let isWord
-        let isWin
         let isFinished
         let charStatus
-        let correctWord
         await fetch('/api/guess', requestOptions)
             .then(response => response.json())
             .then(data => {
                 numberOfTries = data.numberOfTries
                 isWord = data.word
-                isWin = data.win
+                this.setState({ isWin: data.win })
                 isFinished = data.finished
-                charStatus = isWin ? Array(this.NUMBER_OF_LETTERS).fill(3) : data.charStatus
-                correctWord = data.correctWord
+                charStatus = this.state.isWin ? Array(this.NUMBER_OF_LETTERS).fill(3) : data.charStatus
+                this.setState({ correctWord: data.correctWord })
                 console.log('/api/guess', data);
             })
 
@@ -117,8 +119,10 @@ class Game extends Component {
 
         this.coloring(charStatus)
 
-        if (isWin) {
-            console.log("You guessed right! Game over!")  //TODO add win popup
+        if (this.state.isWin) {
+
+            this.setState({ showPop: true })
+
             this.guessesRemaining = 0
             this.isConnecting = false;
             return
@@ -129,7 +133,7 @@ class Game extends Component {
         this.nextLetter = 0;
 
         if (this.guessesRemaining === 0) {
-            console.log("You've run out of guesses! Game over!")  //TODO add loose popup
+            this.setState({ showPop: true })  //TODO add loose popup
         }
 
         this.isConnecting = false;
@@ -160,7 +164,7 @@ class Game extends Component {
     }
 
     render() {
-        const { isGameStarted } = this.state;
+        console.log(this.state.showPop);
         return (
             <div className='game'>
                 <StartButton
@@ -168,7 +172,7 @@ class Game extends Component {
                     challangeId={this.props.challangeId}
                     gameVariant={this.state.gameVariant}
                     setGameId={gameId => this.setState({ gameId: gameId })}
-                    isGameStarted={isGameStarted}
+                    isGameStarted={this.state.isGameStarted}
                     setIsGameStarted={value => this.setState({ isGameStarted: value })}
                     setGridBoxRefs={gridBoxRefs => this.gridBoxRefs = gridBoxRefs}
                     setKeyboardButtonRefs={(name, ref) => this.keyboardButtonRefs[name] = ref}
@@ -176,6 +180,13 @@ class Game extends Component {
                     handleKeyUp={this.handleKeyUp}
                     letters={this.NUMBER_OF_LETTERS}
                     guesses={this.NUMBER_OF_GUESSES}
+                />
+                <Endgame
+                    userName={this.props.userName}
+                    showPop={this.state.showPop}
+                    isWin={this.state.isWin}
+                    challangeId={this.props.challangeId}
+                    correctWord={this.state.correctWord}
                 />
             </div>
         );
