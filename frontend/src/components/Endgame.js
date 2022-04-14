@@ -109,39 +109,8 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
                 </div>
             </Modal.Body>
             </Modal>
-
-            <Modal show={this.props.showPop && this.props.challangeId !== null && this.state.thirdPop}>
-            <Modal.Header className="flex-row">
-                    <Modal.Title>Challange statistics:</Modal.Title>
-                    <CloseButton variant="white" onClick={this.handleCloseThird} />              
-            </Modal.Header>
-            <Modal.Body >
-                <div>
-                <div className='endgame-inner'>
-                            <h1>Word: {this.props.correctWord}</h1>
-                  Number of players: {this.state.numOfPlayersPlayed} <br/> <hr/>
-                  Guess Distibution <br/>
-                            {console.log('lololo', this.state.usernameListGuessedAt1Attempt)}
-                            {/* 1: {this.state.usernameListGuessedAt1Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
-                            2: {this.state.usernameListGuessedAt2Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
-                            3: {this.state.usernameListGuessedAt3Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
-                            4: {this.state.usernameListGuessedAt4Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
-                            5: {this.state.usernameListGuessedAt5Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
-                            6: {this.state.usernameListGuessedAt6Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} */}
-                </div>  
-                </div>
-            </Modal.Body>
-            </Modal>
-    </>
-    )
-  }
+             </>
+         )
+     }
 }
 export default Endgame
-
-
-// 1: {this.state.usernameListGuessedAt1Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
-// 2: {this.state.usernameListGuessedAt2Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-// 3: {this.state.usernameListGuessedAt3Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-// 4: {this.state.usernameListGuessedAt4Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-// 5: {this.state.usernameListGuessedAt5Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
-// 6: {this.state.usernameListGuessedAt6Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])}
