@@ -15,3 +15,17 @@
     color: #EBEBEB;
 }
 
+.modal-content .form-control {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+    background-color: transparent;
+}
+
+.modal-content .form-control:disabled {
+    color: #f8f9fa;
+    background-color: transparent;
+}
+
+.modal-content .form-control::placeholder {
+    color: #bdbdbd;
+}
