@@ -51,7 +51,6 @@ public class MultiplayerGameController {
         User user = userService.getUserByNameCreateIfNo(userName);
         Game game = gameService.createGame(user, multiplayerGame.getWordToGuess(), true);
         gameService.addGameToMultiplayerGame(multiplayerGame,game);
-        //TODO: Better Response, prolly ResponseEntity
         return game.getId();
 
     }

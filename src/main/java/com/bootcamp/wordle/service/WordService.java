@@ -35,7 +35,6 @@ public class WordService {
         return wordList;
     }
 
-    //TODO: Maybe better to do joins?
     public boolean getWordByName(String tryWord) {
         if (extendedWordRepository.existsByWord(tryWord) || wordRepository.existsByWord(tryWord))
             return true;

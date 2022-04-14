@@ -10,13 +10,23 @@ public class Answer {
     private int numberOfTries;
     private int wordLength = 5;
     private int[] charStatus = new int[wordLength];
+    private boolean isFinished;
+    private String correctWord;
 
-    public Answer(boolean isWord, boolean isWin, int[] charStatus, int guessesLeft) {
+    public Answer(boolean isWord, boolean isWin, int[] charStatus, int guessesLeft, boolean isFinished) {
         this.isWord = isWord;
         this.isWin = isWin;
         this.charStatus = charStatus;
         this.numberOfTries = guessesLeft;
-
+        this.isFinished = isFinished;
+    }
+    public Answer(boolean isWord, boolean isWin, int[] charStatus, int guessesLeft, boolean isFinished,String correctWord) {
+        this.isWord = isWord;
+        this.isWin = isWin;
+        this.charStatus = charStatus;
+        this.numberOfTries = guessesLeft;
+        this.isFinished = isFinished;
+        this.correctWord = correctWord;
     }
 
     public int[] getCharStatus() { return charStatus; }
@@ -46,6 +56,22 @@ public class Answer {
 
     public void setNumberOfTries(int numberOfTries) {
         this.numberOfTries = numberOfTries;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public String getCorrectWord() {
+        return correctWord;
+    }
+
+    public void setCorrectWord(String correctWord) {
+        this.correctWord = correctWord;
     }
 }
 

@@ -4,6 +4,7 @@ import com.bootcamp.wordle.model.*;
 import com.bootcamp.wordle.repository.GameRepository;
 import com.bootcamp.wordle.repository.MultiplayerGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class GameService {
     private UserService userService;
 
     public Game createGame(User user) {
+
         User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
         Game game = new Game();
         game.setUser(returnedUser);
@@ -78,6 +80,7 @@ public class GameService {
 
 
     public void cleanExpiredGames() {
+
         List<Game> allGames = new ArrayList<>();
         gameRepository.findAll().forEach(allGames::add);
         for (Game currentGame : allGames) {
@@ -100,7 +103,6 @@ public class GameService {
         gameRepository.save(currentGame);
     }
 
-    //TODO: Potential refactoring
     public void finishGame(Answer answer, Game finishedGame) {
         User gamePlayer = finishedGame.getUser();
         gamePlayer.setTotalNumberOfGames(gamePlayer.getTotalNumberOfGames() + 1);
@@ -202,21 +204,23 @@ public class GameService {
         int[] letterPlacement = new int[5];
         //GAME IS ALREADY FINISHED
         if (guessesLeft == 0) {
-            return new Answer(false, false, letterPlacement, guessesLeft - 1);
+            return new Answer(false, false, letterPlacement, guessesLeft - 1, true);
         }
         //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
         if (isWin || (!isWin && (guessesLeft - 1 == 0))) {
-            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1);
+            letterPlacement = wordService.compareWords(userGuess.getWord(), foundGame.getWord());
+            Answer answer = new Answer(isWord, isWin, letterPlacement, guessesLeft - 1, true,
+                    foundGame.getWord());
             finishGame(answer, foundGame);
             return answer;
         } else if (!isWord) {
             extendGameSessionLife(foundGame);
-            return new Answer(isWord, isWin, letterPlacement, guessesLeft);
+            return new Answer(isWord, isWin, letterPlacement, guessesLeft,false);
         }
         extendGameSessionLife(foundGame);
         setGuessesLeft(foundGame.getId(), guessesLeft - 1);
         letterPlacement = wordService.compareWords(userGuess.getWord(), foundGame.getWord());
-        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft());
+        return new Answer(isWord, isWin, letterPlacement, foundGame.getGuessesLeft(), false);
 
 
     }
