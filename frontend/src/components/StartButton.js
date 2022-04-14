@@ -55,6 +55,7 @@ class StartButton extends Component {
         } else {
             return (
                 <Button
+                    disabled={this.props.challangeId === undefined}
                     variant='outline-light'
                     onClick={this.startGame}
                 >
