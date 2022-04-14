@@ -4,7 +4,6 @@ import com.bootcamp.wordle.model.*;
 import com.bootcamp.wordle.repository.GameRepository;
 import com.bootcamp.wordle.repository.MultiplayerGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class GameService {
     private UserService userService;
 
     public Game createGame(User user) {
-        //TODO: Potential improvement to next line
         User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
         Game game = new Game();
         game.setUser(returnedUser);
@@ -36,7 +34,6 @@ public class GameService {
     }
 
     public Game createGame(User user, String wordToGuess, boolean isMultiplayer) {
-        //TODO: Potential improvement to next line
         User returnedUser = userService.getUserByNameCreateIfNo(user.getUserName());
         Game game = new Game();
         game.setUser(user);
@@ -81,7 +78,6 @@ public class GameService {
 
 
     public void cleanExpiredGames() {
-        //TODO:Add suport for deleteting old multiplayer games
         List<Game> allGames = new ArrayList<>();
         gameRepository.findAll().forEach(allGames::add);
         for (Game currentGame : allGames) {
@@ -141,7 +137,6 @@ public class GameService {
         MultiplayerGame multiplayerGame = multiplayerGameRepository.findByGameList_id(finishedGame.getId());
         List<String> usernameList = new ArrayList<>();
         int wonAtGuessNumber = 6 - finishedGame.getGuessesLeft();
-//            TODO: Check if username is already in list
         switch (wonAtGuessNumber) {
             case 0:
                 usernameList = new ArrayList<String>(multiplayerGame.getUsernameListGuessedAt1Attempt());
@@ -207,7 +202,6 @@ public class GameService {
         int[] letterPlacement = new int[5];
         //GAME IS ALREADY FINISHED
         if (guessesLeft == 0) {
-            //TODO: JSON RESPONSE GAME DOES NOT EXIST (IS OVER)
             return new Answer(false, false, letterPlacement, guessesLeft - 1);
         }
         //GAME IS EITHER WON OR NO MORE ATTEMPTS REMAIN AND LOSE
