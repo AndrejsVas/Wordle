@@ -12,13 +12,7 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
             firstPop: true,
             secondPop: false,
             thirdPop: false,
-            guessedWordsAtAttempt: [[], [], [], [], [], []],
-            usernameListGuessedAt1Attempt: '',
-            usernameListGuessedAt2Attempt: '',
-            usernameListGuessedAt3Attempt: '',
-            usernameListGuessedAt4Attempt: '',
-            usernameListGuessedAt5Attempt: '',
-            usernameListGuessedAt6Attempt: ''
+            guessedWordsAtAttempt: [[], [], [], [], [], []]
         };
     }
      loadStats = async () => {
@@ -36,24 +30,9 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
                  })
              });      
       }
-      loadStatsMultiplayer = () => {
-          console.log();
-        fetch('api/multiplayerGame/stats?multiplayerGameId='+this.state.multiplayerGameId)
-            .then(response => response.json())
-            .then(data =>{this.setState({
-              wordToGuess: data.wordToGuess,
-              numOfPlayersPlayed: data.numOfPlayersPlayed,
-                usernameListGuessedAt1Attempt: data.usernameListGuessedAt1Attempt,
-                usernameListGuessedAt2Attempt: data.usernameListGuessedAt2Attempt,
-                usernameListGuessedAt3Attempt: data.usernameListGuessedAt3Attempt,
-                usernameListGuessedAt4Attempt: data.usernameListGuessedAt4Attempt,
-                usernameListGuessedAt5Attempt: data.usernameListGuessedAt5Attempt,
-                usernameListGuessedAt6Attempt: data.usernameListGuessedAt6Attempt
-            });this.setState({isMulti: true});console.log(data)});     
-      }
+
      startLoading = () => {
          this.loadStats();
-         if (this.props.challangeId !== null) { this.updateTimer = setInterval(() => this.loadStatsMultiplayer(), 1000); }
       }
       componentWillUnmount = () => {
         clearInterval(this.updateTimer);
@@ -109,8 +88,38 @@ import { Modal, Image, CloseButton, Button } from "react-bootstrap";
                 </div>
             </Modal.Body>
             </Modal>
+
+            {this.props.multData != null ? <Modal show={this.props.showPop && this.props.challangeId !== null && this.state.thirdPop}>
+                <Modal.Header className="flex-row">
+                    <Modal.Title>Challange statistics:</Modal.Title>
+                    <CloseButton variant="white" onClick={this.handleCloseThird} />
+                </Modal.Header>
+                <Modal.Body >
+                    <div>
+                        <div className='endgame-inner'>
+                            <h1>Word: {this.props.multData.wordToGuess}</h1>
+                            Number of players: {this.props.multData.numOfPlayersPlayed} <br /> <hr />
+                            Guess Distibution <br />
+                            1: {this.props.multData.usernameListGuessedAt1Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
+                            2: {this.props.multData.usernameListGuessedAt2Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
+                            3: {this.props.multData.usernameListGuessedAt3Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
+                            4: {this.props.multData.usernameListGuessedAt4Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
+                            5: {this.props.multData.usernameListGuessedAt5Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
+                            6: {this.props.multData.usernameListGuessedAt6Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])}
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal> : null}
              </>
          )
      }
 }
 export default Endgame
+
+
+// 1: {this.state.usernameListGuessedAt1Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br />
+// 2: {this.state.usernameListGuessedAt2Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+// 3: {this.state.usernameListGuessedAt3Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+// 4: {this.state.usernameListGuessedAt4Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+// 5: {this.state.usernameListGuessedAt5Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])} <br/>
+// 6: {this.state.usernameListGuessedAt6Attempt.map(t => <span>{t}</span>).reduce((prev, curr) => [prev, ', ', curr])}

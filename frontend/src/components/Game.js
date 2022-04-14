@@ -29,6 +29,7 @@ class Game extends Component {
     componentDidMount() {
         if (this.props.challangeId * 1 > -1) this.setState({ gameVariant: 1 })
         else this.setState({ gameVariant: 0 })
+        this.challangeStatsLoader()
     }
 
     handleKeyUp = ({ key }) => {
@@ -164,7 +165,20 @@ class Game extends Component {
         return true
     }
 
-    challangeStatsLoader = () => { }
+    challangeStatsLoader = () => {
+        if (this.props.challangeId !== null) { this.updateTimer = setInterval(() => this.loadStatsMultiplayer(), 1000); }
+    }
+
+    loadStatsMultiplayer = () => {
+        console.log();
+        fetch('api/multiplayerGame/stats?multiplayerGameId=' + this.props.challangeId)
+            .then(response => response.json())
+            .then(data => this.setState({ multData: data }));
+    }
+
+    componentWillUnmount = () => {
+        clearInterval(this.updateTimer);
+    }
 
     render() {
         console.log(this.state.showPop);
@@ -185,6 +199,7 @@ class Game extends Component {
                     guesses={this.NUMBER_OF_GUESSES}
                 />
                 <Endgame
+                    multData={this.state.multData}
                     userName={this.props.userName}
                     showPop={this.state.showPop}
                     isWin={this.state.isWin}
