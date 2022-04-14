@@ -82,7 +82,8 @@ class Game extends Component {
         let guessString = this.currentGuess.join('');
 
         if (guessString.length !== this.NUMBER_OF_LETTERS) {
-             //TODO make animation
+            this.gridBoxRefs[6 - this.guessesRemaining][0].parentElement.classList.add('bad-word')
+            setTimeout(() => this.gridBoxRefs[6 - this.guessesRemaining][0].parentElement.classList.remove('bad-word'), 500);
             this.isConnecting = false;
             return
         }
@@ -111,8 +112,8 @@ class Game extends Component {
 
 
         if (!isWord) {
-            this.gridBoxRefs[6 - this.guessesRemaining][0].parentElement.classList.add('bad-word') //TODO remove after time
-
+            this.gridBoxRefs[6 - this.guessesRemaining][0].parentElement.classList.add('bad-word')
+            setTimeout(() => this.gridBoxRefs[6 - this.guessesRemaining][0].parentElement.classList.remove('bad-word'), 500);
             this.isConnecting = false;
             return
         }
@@ -162,6 +163,8 @@ class Game extends Component {
         if (ref.classList.findIndex(name => { return name === className; }) === -1) return false
         return true
     }
+
+    challangeStatsLoader = () => { }
 
     render() {
         console.log(this.state.showPop);
