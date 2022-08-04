@@ -1,4 +1,7 @@
 # Wordle
+## Accenture Bootcamp
+This web app was created as a team effort for Accentures Bootcamp final project. The team consisted of people with different backgrounds and experiences.
+
 
 ## Summary of idea/application
 The project aimed at creating a word guessing games similar to the popular browser game Wordle. The user's aim is to guess the 5 letter word, picked randomly from the database. User has 5 guesses, and every guess attempt, the application returns information on which letters from the attempted word match the picked word, and whether the letters are in a matching position. When the game finishes, a window opens with the personal statistics for that username, such as the win streak and the win rate.
